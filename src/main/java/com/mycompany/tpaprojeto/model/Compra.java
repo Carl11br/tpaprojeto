@@ -15,7 +15,10 @@ public class Compra {
         this.desconto = desconto;
         this.items = new ArrayList<Item>();
     }
-
+    public boolean add_Item(Item i)
+    {
+       return this.items.add(i);
+    }
     public float getTotal() {
         return total;
     }
