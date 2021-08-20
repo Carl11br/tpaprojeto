@@ -1,12 +1,14 @@
 package com.mycompany.tpaprojeto.model;
 
-public class Cliente {
+import java.io.Serializable;
+
+public class Cliente implements Serializable {
     int cpf;
     float comprasAcumuladas;
 
-    public Cliente(int cpf) {
+    public Cliente(int cpf, float comprasAcumuladas) {
         this.cpf = cpf;
-        this.comprasAcumuladas = 0;
+        this.comprasAcumuladas = comprasAcumuladas;
     }
 
     public int getCpf() {

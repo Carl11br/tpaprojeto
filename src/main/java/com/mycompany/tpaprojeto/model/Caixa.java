@@ -1,5 +1,8 @@
 package com.mycompany.tpaprojeto.model;
-public class Caixa {
+
+import java.io.Serializable;
+
+public class Caixa implements Serializable {
     private int matricula;
     private String nome;
 

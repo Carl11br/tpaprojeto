@@ -3,7 +3,7 @@ package com.mycompany.tpaprojeto.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Compra {
+public class Compra{
     float total;
     List<Item> items;
     Cliente cliente;

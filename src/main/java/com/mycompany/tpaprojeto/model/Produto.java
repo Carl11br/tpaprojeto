@@ -1,6 +1,8 @@
 package com.mycompany.tpaprojeto.model;
 
-public class Produto {
+import java.io.Serializable;
+
+public class Produto implements Serializable {
     private int codigo;
     private String nome;
     private float preco;

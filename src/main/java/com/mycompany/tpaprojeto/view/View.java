@@ -70,8 +70,13 @@ public class View {
         String nome = ler.nextLine();
         System.out.println("Digite o preço do produto a ser cadastrado:");
         float preco = ler.nextFloat();
-        ctr.cadastrarProduto(cod,nome,preco);
-           
+        ctr.cadastrarProduto(cod,nome,preco);   
+    }
+      public void cadastrarCliente()
+    {
+        System.out.println("Digite o cpf do cliente a ser cadastrado:");
+        int cpf = ler.nextInt();
+        ctr.cadastrarCliente(cpf);   
     }
     
 
