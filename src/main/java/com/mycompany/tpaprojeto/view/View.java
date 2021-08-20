@@ -67,11 +67,12 @@ public class View {
         System.out.println("Digite o código do produto a ser cadastrado:");
         int cod = ler.nextInt();
         System.out.println("Digite o nome do produto a ser cadastrado:");
-        String nome = ler.next();
+        String nome = ler.nextLine();
         System.out.println("Digite o preço do produto a ser cadastrado:");
         float preco = ler.nextFloat();
         ctr.cadastrarProduto(cod,nome,preco);
            
     }
+    
 
 }
