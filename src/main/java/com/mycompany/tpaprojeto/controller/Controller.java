@@ -5,13 +5,23 @@ import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Compra;
 import com.mycompany.tpaprojeto.model.Item;
 import com.mycompany.tpaprojeto.model.Produto;
+import com.mycompany.tpaprojeto.persistence.Persitence;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Controller {
 
-    public void cadastrarProduto(int cod, String nome, float preco) {
+    Persitence per;
+
+    public Controller() {
+        this.per = new Persitence();
+    }
+    public boolean cadastrarProduto(int cod, String nome, float preco) {
         //checar se o produto já está cadastrado ou não
         Produto p = new Produto(cod, nome, preco);
-        //adicionar no bd ou arq bin
+        return  per.salvarProdutoArquivo(p);
+        
     }
 
     public void cadastrarCliente(int cpf) {

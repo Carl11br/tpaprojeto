@@ -10,6 +10,33 @@ public class View {
     int op = 0;
     Controller ctr = new Controller();
 
+    public int lerInt() {
+        int num = 0;
+        boolean flag = true;
+        while (flag) {
+            try {
+                num = Integer.parseInt(ler.nextLine());
+                flag = false;
+            } catch (NumberFormatException e) {
+                System.out.println("Digite apenas um número que seja inteiro:");
+            }
+        }
+        return num;
+    }
+     public float  lerFloat() {
+        float num = 0;
+        boolean flag = true;
+        while (flag) {
+            try {
+                num = Float.parseFloat(ler.nextLine());
+                flag = false;
+            } catch (NumberFormatException e) {
+                System.out.println("Digite apenas um número que seja real (Ex.: 00.00):");
+            }
+        }
+        return num;
+    }
+
     public void menuPrincipal() {
 
         System.out.println("1-Iniciar compra");
@@ -50,6 +77,7 @@ public class View {
         }
 
     }
+
     public void menuProduto() {
         System.out.println("1-Cadastrar Produto");
         System.out.println("2-Alterar Produto");
@@ -62,22 +90,22 @@ public class View {
                 break;
         }
     }
-    public void cadastrarProduto()
-    {
+
+    public void cadastrarProduto() {
         System.out.println("Digite o código do produto a ser cadastrado:");
-        int cod = ler.nextInt();
+        int cod = lerInt();
         System.out.println("Digite o nome do produto a ser cadastrado:");
         String nome = ler.nextLine();
         System.out.println("Digite o preço do produto a ser cadastrado:");
-        float preco = ler.nextFloat();
-        ctr.cadastrarProduto(cod,nome,preco);   
+        float preco = lerFloat();
+        if(ctr.cadastrarProduto(cod, nome, preco))
+            System.out.println("Prduto cadastrado com sucesso!");
     }
-      public void cadastrarCliente()
-    {
+
+    public void cadastrarCliente() {
         System.out.println("Digite o cpf do cliente a ser cadastrado:");
         int cpf = ler.nextInt();
-        ctr.cadastrarCliente(cpf);   
+        ctr.cadastrarCliente(cpf);
     }
-    
 
 }

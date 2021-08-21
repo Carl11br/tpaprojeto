@@ -36,6 +36,11 @@ public class Produto implements Serializable {
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
+    @Override
+    public String toString()
+    {
+        return "Código: " + this.getCodigo() + "\nNome: " + this.getNome() + "\nPreço: R$ "+ this.getPreco();
+    }
     
     
 }
