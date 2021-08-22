@@ -6,28 +6,44 @@ import com.mycompany.tpaprojeto.model.Compra;
 import com.mycompany.tpaprojeto.model.Item;
 import com.mycompany.tpaprojeto.model.Produto;
 import com.mycompany.tpaprojeto.persistence.Persitence;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.mycompany.tpaprojeto.persistence.ProdutoPersitence;
 
 public class Controller {
 
     Persitence per;
+    ProdutoPersitence prodPer;
+    Compra compra;
 
     public Controller() {
         this.per = new Persitence();
+        this.prodPer = new ProdutoPersitence();
     }
     public boolean cadastrarProduto(int cod, String nome, float preco) {
         //checar se o produto já está cadastrado ou não
-        Produto p = new Produto(cod, nome, preco);
-        return  per.salvarProdutoArquivo(p);
+        Produto prod;
+        prod = new Produto(cod, nome, preco);
+        return  this.prodPer.adicionarProdutoNoArquivo(prod);
         
     }
+    public boolean deletarProduto(int cod)
+    {
+       return  prodPer.deletarProdutoDoArquivo(cod);
+    }
+    public String recuperarTodosProdutosComoString()
+    {
+        String s = "";
+        for(Produto p : this.prodPer.getProdutos().values())
+        {
+            s = s + "----------------------\n" + p.toString();
+        }
+        return s;
+    }
 
-    public void cadastrarCliente(int cpf) {
+    public Cliente cadastrarCliente(int cpf) {
         //if(cpfEhValido(cpf)) checar se o cpf é valido e se já está cadastrado
         Cliente c = new Cliente(cpf, 0.0f);
         //add ao arq bin
+        return c;
     }
 
     public void cadastrarCaixa(int mat, String nome) {
@@ -49,6 +65,12 @@ public class Controller {
         
     }
     public void adicionarItemACompra(Item i, Compra compra) {
+        compra.add_Item(i);
         return;
+    }
+
+    public Compra iniciarCompra(Cliente cliente) {
+       Compra c = new Compra(0.0f, cliente);
+       return c;
     }
 }

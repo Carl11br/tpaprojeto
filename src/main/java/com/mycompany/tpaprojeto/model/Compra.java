@@ -9,10 +9,10 @@ public class Compra{
     Cliente cliente;
     float desconto;
 
-    public Compra(float total, Cliente cliente, float desconto) {
+    public Compra(float total, Cliente cliente) {
         this.total = total;
         this.cliente = cliente;
-        this.desconto = desconto;
+        this.desconto = 0;//Calcular desconto baseado no comprasAcumuladas do cliente
         this.items = new ArrayList<Item>();
     }
     public boolean add_Item(Item i)

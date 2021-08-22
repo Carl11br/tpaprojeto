@@ -9,6 +9,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,7 +65,6 @@ public class Persitence {
         } catch (IOException ex) {
             return false;
         }
-
     }
 
     public Produto lerProdutoArquivo() {
@@ -75,6 +76,40 @@ public class Persitence {
         } catch (IOException | ClassNotFoundException ex) {
             return null;
         }
+    }
+    public Produto buscarProduto(int codigo)
+    {
+        Produto prod ;
+        while((prod= this.lerProdutoArquivo())!=null)
+        {
+            if(prod.getCodigo()==codigo)
+                return prod;
+        }
+        return null;
+    }
+    public void deletarProduto(int codigo)
+    {
+        var produtos = new ArrayList<Produto>();
+        Produto prod ;
+        while((prod= this.lerProdutoArquivo())!=null)
+        {
+            System.out.println(prod.toString());
+            if(prod.getCodigo()!=codigo)
+                produtos.add(prod);       
+        }
+        ObjectOutputStream oos;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream("produtos.bin", false));//deleta o arquivoo e cria dnv
+           for (Produto p : produtos)
+           {
+            oos.writeObject(p);
+           }
+            oos.close();         
+        } catch (IOException ex) {
+            
+        }
+        
+        
     }
 
 }

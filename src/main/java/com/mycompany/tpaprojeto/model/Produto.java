@@ -39,7 +39,7 @@ public class Produto implements Serializable {
     @Override
     public String toString()
     {
-        return "Código: " + this.getCodigo() + "\nNome: " + this.getNome() + "\nPreço: R$ "+ this.getPreco();
+        return "Código: " + this.getCodigo() + "\nNome: " + this.getNome() + "\nPreço: R$ "+ this.getPreco() + "\n";
     }
     
     

@@ -1,6 +1,9 @@
 package com.mycompany.tpaprojeto.view;
 
 import com.mycompany.tpaprojeto.controller.Controller;
+import com.mycompany.tpaprojeto.model.Cliente;
+import com.mycompany.tpaprojeto.model.Compra;
+import com.mycompany.tpaprojeto.model.Item;
 import com.mycompany.tpaprojeto.model.Produto;
 import java.util.Scanner;
 
@@ -23,7 +26,8 @@ public class View {
         }
         return num;
     }
-     public float  lerFloat() {
+
+    public float lerFloat() {
         float num = 0;
         boolean flag = true;
         while (flag) {
@@ -41,28 +45,45 @@ public class View {
 
         System.out.println("1-Iniciar compra");
         System.out.println("2-Acesso do gerente");
-        op = ler.nextInt();
+        System.out.println("3-Encerrar");
+        op = lerInt();
         switch (op) {
             case 1:
+                this.menuCompra(this.associarCliente());
                 break;
             default:
                 break;
         }
     }
 
-    public void menuCompra() {
-        System.out.println("1-Adicionar item");
-        System.out.println("2-Remover item");
-        System.out.println("3-Concluir compra");
-        System.out.println("4-Cancelar Compra");
+    public void menuCompra(Cliente cliente) {
+        op = 0;
+        Compra compra = ctr.iniciarCompra(cliente);
+        while (op != 3 && op != 4) {
+            System.out.println("1-Adicionar item");
+            System.out.println("2-Remover item");
+            System.out.println("3-Concluir compra");
+            System.out.println("4-Cancelar Compra");
+            op = lerInt();
+            switch (op) {
+                case 1:
+                    this.adicionarItem(compra);
+
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
-    public void adicionarItem() {
+    public void adicionarItem(Compra compra) {
         System.out.println("Digite o código do produto:");
         int cod = ler.nextInt();
         System.out.println("Digite a quantidade de items:");
         int qtd = ler.nextInt();
+        Item i = ctr.criarItem(cod, qtd);
         //Produto p = BuscarProduto(cod);
+        ctr.adicionarItemACompra(i, compra);
     }
 
     public void menuGerente() {
@@ -79,15 +100,32 @@ public class View {
     }
 
     public void menuProduto() {
-        System.out.println("1-Cadastrar Produto");
-        System.out.println("2-Alterar Produto");
-        System.out.println("3-Excluir Produto");
-        op = ler.nextInt();
-        switch (op) {
-            case 1:
-                break;
-            default:
-                break;
+        boolean flag = true;
+        System.out.println("------------------Menu Produtos------------------");
+        while (flag) {
+            System.out.println("1-Cadastrar Produto");
+            System.out.println("2-Alterar Produto");
+            System.out.println("3-Excluir Produto");
+            System.out.println("4-Exibir todos os produtos cadstrados");
+            System.out.println("n-Digite outro número para sair do menu de produtos");
+            op = lerInt();
+            switch (op) {
+                case 1:
+                    cadastrarProduto();
+                    break;
+                case 2:
+                    alterarProduto();
+                    break;
+                case 3:
+                    deletarProduto();
+                    break;
+                case 4:
+                    exibirTodosProdutos();
+                    break;
+                default:
+                    flag = false;
+                    break;
+            }
         }
     }
 
@@ -98,14 +136,49 @@ public class View {
         String nome = ler.nextLine();
         System.out.println("Digite o preço do produto a ser cadastrado:");
         float preco = lerFloat();
-        if(ctr.cadastrarProduto(cod, nome, preco))
-            System.out.println("Prduto cadastrado com sucesso!");
+        if (ctr.cadastrarProduto(cod, nome, preco)) {
+            System.out.println("Produto cadastrado com sucesso!");
+        } else {
+            System.out.println("Não foi possível cadastrar esse produto!");
+        }
     }
 
-    public void cadastrarCliente() {
-        System.out.println("Digite o cpf do cliente a ser cadastrado:");
-        int cpf = ler.nextInt();
-        ctr.cadastrarCliente(cpf);
+    public void alterarProduto() {
+        System.out.println("Digite o código do produto a ser alterado:");
+        int cod = lerInt();
+        //bucarProduto
+        //imprimir o produto
+        System.out.println("Digite o novo nome do produto:");
+        String nome = ler.nextLine();
+        System.out.println("Digite o novo preço do produto:");
+        float preco = lerFloat();
+        //deletar o produto
+        if (ctr.cadastrarProduto(cod, nome, preco)) {
+            System.out.println("Produto alterado com sucesso!");
+        } else {
+            System.out.println("Não foi possível alterar esse produto!");
+        }
+    }
+
+    public void deletarProduto() {
+        System.out.println("Digite o código do produto a ser deletado:");
+        int cod = lerInt();
+        if (ctr.deletarProduto(cod)) {
+            System.out.println("Produto deletado com sucesso!");
+        } else {
+            System.out.println("Não foi possível deletar esse produto!");
+        }
+    }
+
+    public void exibirTodosProdutos() {
+        System.out.print(ctr.recuperarTodosProdutosComoString());
+    }
+
+    public Cliente associarCliente() {
+        System.out.println("Digite o cpf do cliente:");
+        int cpf = lerInt();
+        //verificar se cliente é cadastrado, recuperar ele e associar a compra
+        return ctr.cadastrarCliente(cpf);
     }
 
 }
