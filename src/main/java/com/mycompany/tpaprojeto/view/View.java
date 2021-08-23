@@ -5,7 +5,10 @@ import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Compra;
 import com.mycompany.tpaprojeto.model.Item;
 import com.mycompany.tpaprojeto.model.Produto;
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class View {
 
@@ -39,6 +42,24 @@ public class View {
             }
         }
         return num;
+    }
+
+    public void aperteEnterContinuar() {
+        System.out.println("Aperte ENTER para continuar ...");
+        ler.nextLine();
+        //Clears Screen in java
+        try {
+
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+
+        } catch (IOException | InterruptedException ex) {
+        }
+        System.out.print("\f"); 
+
     }
 
     public void menuPrincipal() {
@@ -112,15 +133,19 @@ public class View {
             switch (op) {
                 case 1:
                     cadastrarProduto();
+                    this.aperteEnterContinuar();
                     break;
                 case 2:
                     alterarProduto();
+                    this.aperteEnterContinuar();
                     break;
                 case 3:
                     deletarProduto();
+                    this.aperteEnterContinuar();
                     break;
                 case 4:
                     exibirTodosProdutos();
+                    this.aperteEnterContinuar();
                     break;
                 default:
                     flag = false;
@@ -132,31 +157,41 @@ public class View {
     public void cadastrarProduto() {
         System.out.println("Digite o código do produto a ser cadastrado:");
         int cod = lerInt();
-        System.out.println("Digite o nome do produto a ser cadastrado:");
-        String nome = ler.nextLine();
-        System.out.println("Digite o preço do produto a ser cadastrado:");
-        float preco = lerFloat();
-        if (ctr.cadastrarProduto(cod, nome, preco)) {
-            System.out.println("Produto cadastrado com sucesso!");
+        if (ctr.buscarProduto(cod) == null) {
+            System.out.println("Digite o nome do produto a ser cadastrado:");
+            String nome = ler.nextLine();
+            System.out.println("Digite o preço do produto a ser cadastrado:");
+            float preco = lerFloat();
+            if (ctr.cadastrarProduto(cod, nome, preco)) {
+                System.out.println("Produto cadastrado com sucesso!");
+            } else {
+                System.out.println("Não foi possível cadastrar esse produto!");
+            }
         } else {
-            System.out.println("Não foi possível cadastrar esse produto!");
+            System.out.println("Já existe um produto cadastrado com esse código!");
         }
     }
 
     public void alterarProduto() {
         System.out.println("Digite o código do produto a ser alterado:");
         int cod = lerInt();
-        //bucarProduto
-        //imprimir o produto
-        System.out.println("Digite o novo nome do produto:");
-        String nome = ler.nextLine();
-        System.out.println("Digite o novo preço do produto:");
-        float preco = lerFloat();
-        //deletar o produto
-        if (ctr.cadastrarProduto(cod, nome, preco)) {
-            System.out.println("Produto alterado com sucesso!");
+        Produto p;
+        if ((p = ctr.buscarProduto(cod)) == null) {
+            System.out.println("Produto não encontrado!");
         } else {
-            System.out.println("Não foi possível alterar esse produto!");
+            System.out.println("--------------");
+            System.out.print(p.toString());
+            System.out.println("--------------");
+            System.out.println("Digite o novo nome do produto:");
+            String nome = ler.nextLine();
+            System.out.println("Digite o novo preço do produto:");
+            float preco = lerFloat();
+
+            if (ctr.deletarProduto(cod) && ctr.cadastrarProduto(cod, nome, preco)) {
+                System.out.println("Produto alterado com sucesso!");
+            } else {
+                System.out.println("Não foi possível alterar esse produto!");
+            }
         }
     }
 
@@ -172,6 +207,7 @@ public class View {
 
     public void exibirTodosProdutos() {
         System.out.print(ctr.recuperarTodosProdutosComoString());
+        System.out.println("----------------------4");
     }
 
     public Cliente associarCliente() {

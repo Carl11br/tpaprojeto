@@ -38,6 +38,11 @@ public class Controller {
         }
         return s;
     }
+    public Produto  buscarProduto(int cod)
+    {
+         
+        return prodPer.buscarProdutoNoArquivo(cod);
+    }
 
     public Cliente cadastrarCliente(int cpf) {
         //if(cpfEhValido(cpf)) checar se o cpf é valido e se já está cadastrado
