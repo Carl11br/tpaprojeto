@@ -5,17 +5,13 @@ import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Compra;
 import com.mycompany.tpaprojeto.model.Item;
 import com.mycompany.tpaprojeto.model.Produto;
-import com.mycompany.tpaprojeto.persistence.Persitence;
 import com.mycompany.tpaprojeto.persistence.ProdutoPersitence;
 
 public class Controller {
-
-    Persitence per;
     ProdutoPersitence prodPer;
     Compra compra;
 
     public Controller() {
-        this.per = new Persitence();
         this.prodPer = new ProdutoPersitence();
     }
     public boolean cadastrarProduto(int cod, String nome, float preco) {

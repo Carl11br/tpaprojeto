@@ -2,21 +2,18 @@ package com.mycompany.tpaprojeto.persistence;
 
 import com.mycompany.tpaprojeto.model.Produto;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ProdutoPersitence {
 
     private HashMap<Integer, Produto> produtos;
 
     public ProdutoPersitence() {
-        if(lerProdutosDoArquivo() == false)
+        if(this.lerProdutosDoArquivo() == false)
             this.produtos = new HashMap<>();
     }
 
