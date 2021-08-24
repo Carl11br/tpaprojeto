@@ -5,14 +5,24 @@ import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Compra;
 import com.mycompany.tpaprojeto.model.Item;
 import com.mycompany.tpaprojeto.model.Produto;
+import com.mycompany.tpaprojeto.persistence.CaixaPersitence;
+import com.mycompany.tpaprojeto.persistence.CompraPersitence;
+import com.mycompany.tpaprojeto.persistence.GerentePersitence;
 import com.mycompany.tpaprojeto.persistence.ProdutoPersitence;
 
 public class Controller {
     ProdutoPersitence prodPer;
+    CaixaPersitence  caixaPer;
+    GerentePersitence gerentePer;
+    CompraPersitence compraPer;
+    
     Compra compra;
 
     public Controller() {
         this.prodPer = new ProdutoPersitence();
+        this.caixaPer = new CaixaPersitence();
+        this.gerentePer = new GerentePersitence();
+        this.compraPer = new CompraPersitence();
     }
     public boolean cadastrarProduto(int cod, String nome, float preco) {
         //checar se o produto já está cadastrado ou não
@@ -47,10 +57,9 @@ public class Controller {
         return c;
     }
 
-    public void cadastrarCaixa(int mat, String nome) {
-        //Checar se já existe caixa com essa matrícula.
+    public boolean cadastrarCaixa(int mat, String nome) {
         Caixa c = new Caixa(mat, nome);
-        //add ao arq bin
+        return  this.caixaPer.adicionarCaixaNoArquivo(c);
     }
 
     public void cadastrarGerente(int mat, String nome, String senha) {
@@ -73,5 +82,10 @@ public class Controller {
     public Compra iniciarCompra(Cliente cliente) {
        Compra c = new Compra(0.0f, cliente);
        return c;
+    }
+
+    public Caixa  buscarCaixa(int cod)
+    {   
+        return caixaPer.buscarCaixaNoArquivo(cod);
     }
 }

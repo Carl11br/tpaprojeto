@@ -127,7 +127,7 @@ public class View {
             System.out.println("1-Cadastrar Produto");
             System.out.println("2-Alterar Produto");
             System.out.println("3-Excluir Produto");
-            System.out.println("4-Exibir todos os produtos cadstrados");
+            System.out.println("4-Exibir todos os produtos cadastrados");
             System.out.println("n-Digite outro número para sair do menu de produtos");
             op = lerInt();
             switch (op) {
@@ -215,6 +215,51 @@ public class View {
         int cpf = lerInt();
         //verificar se cliente é cadastrado, recuperar ele e associar a compra
         return ctr.cadastrarCliente(cpf);
+    }
+    
+    public void menuCadastroCaixa() {
+        boolean flag = true;
+        System.out.println("------------------Menu Produtos------------------");
+        while (flag) {
+            System.out.println("1-Cadastrar Caixa");
+            System.out.println("2-Excluir cadastro de um Caixa");
+            System.out.println("3-Exibir todos os Caixas cadastrados");
+            System.out.println("n-Digite outro número para sair do menu de produtos");
+            op = lerInt();
+            switch (op) {
+                case 1:
+                    cadastrarCaixa();
+                    this.aperteEnterContinuar();
+                    break;
+                case 2:
+                    deletarProduto();
+                    this.aperteEnterContinuar();
+                    break;
+                case 3:
+                    exibirTodosProdutos();
+                    this.aperteEnterContinuar();
+                    break;
+                default:
+                    flag = false;
+                    break;
+            }
+        }
+    }
+
+    public void cadastrarCaixa() {
+         System.out.println("Digite a matrícula do Caixa a ser cadastrado:");
+        int mat = lerInt();
+        if (ctr.buscarCaixa(mat) == null) {
+            System.out.println("Digite o nome do Caixa a ser cadastrado:");
+            String nome = ler.nextLine();
+            if (ctr.cadastrarCaixa(mat, nome)) {
+                System.out.println("Caixa cadastrado com sucesso!");
+            } else {
+                System.out.println("Não foi possível cadastrar esse Caixa!");
+            }
+        } else {
+            System.out.println("Já existe um Caixa cadastrado com essa matrícula!");
+        }
     }
 
 }
