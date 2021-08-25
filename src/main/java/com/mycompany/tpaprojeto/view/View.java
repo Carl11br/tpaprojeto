@@ -71,7 +71,7 @@ public class View {
         op = lerInt();
         switch (op) {
             case 1:
-                this.menuCompra(this.associarCliente());
+                //this.menuCompra(this.associarCliente());
                 break;
             default:
                 break;
@@ -211,13 +211,14 @@ public class View {
         System.out.println("----------------------");
     }
 
-    public Cliente associarCliente() {
+    /*public Cliente associarCliente() {
         System.out.println("Digite o cpf do cliente:");
         int cpf = lerInt();
-        //verificar se cliente é cadastrado, recuperar ele e associar a compra
-        return ctr.cadastrarCliente(cpf);
+        Cliente c = ctr.buscarCliente(cpf);
+        if(c == null)
+        c = ctr.cadastrarCliente(cpf);
     }
-
+*/
     public void menuCadastroCaixa() {
         boolean flag = true;
         System.out.println("------------------Menu Cadastro de Caixas------------------");
@@ -348,4 +349,62 @@ public class View {
         System.out.println("----------------------");
     }
 
+    
+     public void menuCadastroCliente() {
+        boolean flag = true;
+        System.out.println("------------------Menu Cadastro de Clientes------------------");
+        while (flag) {
+            System.out.println("1-Cadastrar Cliente");
+            System.out.println("2-Excluir cadastro de um Cliente");
+            System.out.println("3-Exibir todos os Clientes cadastrados");
+            System.out.println("n-Digite outro número para sair do menu de Clientes");
+            op = lerInt();
+            switch (op) {
+                case 1:
+                    cadastrarCliente();
+                    this.aperteEnterContinuar();
+                    break;
+                case 2:
+                    deletarCliente();
+                    this.aperteEnterContinuar();
+                    break;
+                case 3:
+                    exibirTodosClientes();
+                    this.aperteEnterContinuar();
+                    break;
+                default:
+                    flag = false;
+                    break;
+            }
+        }
+    }
+     public void cadastrarCliente() {
+        System.out.println("Digite o CPF do Cliente a ser cadastrado:");
+        int cpf = lerInt();
+        if (ctr.buscarCliente(cpf) == null) {
+            System.out.println("Digite o nome do Cliente a ser cadastrado:");
+            String nome = ler.nextLine();
+            if (ctr.cadastrarCliente(cpf, nome)) {
+                System.out.println("Cliente cadastrado com sucesso!");
+            } else {
+                System.out.println("Não foi possível cadastrar esse Cliente!");
+            }
+        } else {
+            System.out.println("Já existe um Cliente cadastrado com esse CPF!");
+        }
+    }
+      public void deletarCliente() {
+        System.out.println("Digite o CPF do Cliente cujo cadastro será deletado:");
+        int cpf = lerInt();
+        if (ctr.deletarCliente(cpf)) {
+            System.out.println("Cadastro de Cliente deletado com sucesso!");
+        } else {
+            System.out.println("Não foi possível deletar o cadastro desse Cliente,\n"
+                    + " verifique se o CPF foi digitado corretamente.");
+        }
+    }
+      public void exibirTodosClientes() {
+        System.out.print(ctr.recuperarTodosClientesComoString());
+        System.out.println("----------------------");
+    }
 }

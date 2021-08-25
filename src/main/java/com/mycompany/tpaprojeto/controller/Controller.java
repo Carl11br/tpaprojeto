@@ -7,6 +7,7 @@ import com.mycompany.tpaprojeto.model.Gerente;
 import com.mycompany.tpaprojeto.model.Item;
 import com.mycompany.tpaprojeto.model.Produto;
 import com.mycompany.tpaprojeto.persistence.CaixaPersitence;
+import com.mycompany.tpaprojeto.persistence.ClientePersitence;
 import com.mycompany.tpaprojeto.persistence.CompraPersitence;
 import com.mycompany.tpaprojeto.persistence.GerentePersitence;
 import com.mycompany.tpaprojeto.persistence.ProdutoPersitence;
@@ -17,6 +18,7 @@ public class Controller {
     CaixaPersitence caixaPer;
     GerentePersitence gerentePer;
     CompraPersitence compraPer;
+    ClientePersitence clientePer;
 
     Compra compra;
 
@@ -25,6 +27,7 @@ public class Controller {
         this.caixaPer = new CaixaPersitence();
         this.gerentePer = new GerentePersitence();
         this.compraPer = new CompraPersitence();
+        this.clientePer = new ClientePersitence();
     }
 
     public boolean cadastrarProduto(int cod, String nome, float preco) {
@@ -52,23 +55,16 @@ public class Controller {
         return prodPer.buscarProdutoNoArquivo(cod);
     }
 
-    public Cliente cadastrarCliente(int cpf) {
-        //if(cpfEhValido(cpf)) checar se o cpf é valido e se já está cadastrado
-        Cliente c = new Cliente(cpf, 0.0f);
-        //add ao arq bin
-        return c;
-    }
-
     public boolean cadastrarCaixa(int mat, String nome) {
         Caixa c = new Caixa(mat, nome);
         return this.caixaPer.adicionarCaixaNoArquivo(c);
     }
 
     public boolean cadastrarGerente(int mat, String nome, String senha) {
-        
-        Gerente g = new Gerente(mat,nome, senha);
+
+        Gerente g = new Gerente(mat, nome, senha);
         return this.gerentePer.adicionarGerenteNoArquivo(g);
-        
+
     }
 
     public Item criarItem(int cod, int qtd) {
@@ -105,7 +101,7 @@ public class Controller {
     }
 
     public Gerente buscarGerente(int mat) {
-         return gerentePer.buscarGerenteNoArquivo(mat);
+        return gerentePer.buscarGerenteNoArquivo(mat);
     }
 
     public String recuperarTodosGerentesComoString() {
@@ -113,9 +109,29 @@ public class Controller {
         for (Gerente g : this.gerentePer.getGerentes().values()) {
             s = s + "----------------------\n" + g.toString();
         }
-        return s; 
+        return s;
     }
-     public boolean deletarGerente(int mat) {
+
+    public boolean cadastrarCliente(int cpf, String nome) {
+        Cliente c = new Cliente(cpf, nome, 0.0f);
+        return clientePer.adicionarClienteNoArquivo(c);
+    }
+
+    public boolean deletarGerente(int mat) {
         return gerentePer.deletarGerenteDoArquivo(mat);
+    }
+
+    public Cliente buscarCliente(int cpf) {
+        return clientePer.buscarClienteNoArquivo(cpf);
+    }
+     public boolean deletarCliente(int cpf) {
+        return clientePer.deletarClienteDoArquivo(cpf);
+    }
+    public String recuperarTodosClientesComoString() {
+        String s = "";
+        for (Cliente c : this.clientePer.getClientes().values()) {
+            s = s + "----------------------\n" + c.toString();
+        }
+        return s;
     }
 }

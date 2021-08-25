@@ -52,7 +52,7 @@ public class ClientePersitence {
             return this.salvarClientesNoArquivo();
         }
     }
-    public boolean deletarClienteaDoArquivo(int cpf)
+    public boolean deletarClienteDoArquivo(int cpf)
     {
         if (clientes.keySet().contains(cpf))
             clientes.remove(cpf);
@@ -69,7 +69,7 @@ public class ClientePersitence {
             return null;
     }
 
-    public HashMap<Integer, Cliente> getCaixas() {
+    public HashMap<Integer, Cliente> getClientes() {
         return clientes;
     } 
 }

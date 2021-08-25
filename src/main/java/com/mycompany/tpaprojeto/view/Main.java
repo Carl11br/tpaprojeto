@@ -4,7 +4,8 @@ public class Main {
     
     public static void main(String[] args) {      
         View v = new View();
-        v.menuCadastroGerente();
+        v.menuCadastroCliente();
+        //v.menuCadastroGerente();
         //v.menuCadastroCaixa();
         //v.menuProduto();
      
