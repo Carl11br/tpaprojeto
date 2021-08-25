@@ -1,5 +1,9 @@
 package com.mycompany.tpaprojeto.model;
+
+import java.text.DecimalFormat;
+
 public class Item {
+
     private Produto produto;
     private float quantidade;
     private float subtotal;
@@ -7,7 +11,7 @@ public class Item {
     public Item(Produto produto, float quantidade) {
         this.produto = produto;
         this.quantidade = quantidade;
-        this.subtotal = produto.getPreco()*quantidade;
+        this.subtotal = produto.getPreco() * quantidade;
     }
 
     public Produto getProduto() {
@@ -26,17 +30,25 @@ public class Item {
         this.quantidade = quantidade;
     }
 
+    public void aumentarQuantidade(float quantidade) {
+        if (quantidade > 0) {
+            this.quantidade += quantidade;
+            this.atualizaSubtotal();
+        }
+    }
+
     public float getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(float subtotal) {
-        this.subtotal = subtotal;
+    private void atualizaSubtotal() {
+        this.subtotal = this.produto.getPreco() * this.quantidade;
     }
-     @Override
-    public String toString()
-    {
-        return this.produto.toString() + "Quantidade: " + this.quantidade +
-                "\nSubtotal: R$ " + this.subtotal +"\n";
+
+    @Override
+    public String toString() {
+        DecimalFormat df = new DecimalFormat("0.00");
+        return this.produto.toString() + "Quantidade: " + this.quantidade
+                + "\nSubtotal: R$ " + df.format(this.subtotal) + "\n";
     }
 }

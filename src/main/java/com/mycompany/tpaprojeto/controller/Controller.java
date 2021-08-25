@@ -70,28 +70,42 @@ public class Controller {
     }
 
     public Item criarItem(Produto p, float qtd) {
-        return new Item(p, qtd);
+        if(qtd>0)
+            return new Item(p, qtd);
+        return null;
 
     }
 
     public void adicionarItemACompra(Item i, Compra compra) {
         //checar se já tem um item com esse mesmo produto, 
         //para aumentar a quantidade, ao invés de add outro item do msm produto
-        compra.add_Item(i);
-        return;
+        Item itemBuscado = buscarItemNaCompra(i.getProduto().getCodigo(),compra);
+        if(itemBuscado==null)
+            compra.add_Item(i);
+        else
+        {
+            itemBuscado.aumentarQuantidade(i.getQuantidade());
+        }
     }
 
-    public boolean removerItemDaCompra(Produto p, Compra compra) {
-        Boolean b = false;
-        for(Item i: compra.getItens()){
-            if(i.getProduto() == p){
-                b = compra.remove_Item(i);
+    public Item buscarItemNaCompra(int cod, Compra compra) {
+        for (Item i : compra.getItens()) {
+            if (i.getProduto().getCodigo() == cod) {
+                return i;
             }
         }
-        return b;
+        return null;
     }
 
-     public String recuperarTodosItensComoString(Compra compra) {
+    public boolean removerItemDaCompra(int cod, Compra compra) {
+        Item i = buscarItemNaCompra(cod, compra);
+        if (i != null) {
+            return compra.remove_Item(i);
+        }
+        return false;
+    }
+
+    public String recuperarTodosItensComoString(Compra compra) {
         String s = "";
         for (Item i : compra.getItens()) {
             s = s + "----------------------\n" + i.toString();
@@ -99,12 +113,9 @@ public class Controller {
         return s;
     }
     //public Item buscarItemMesmoProduto(int cod)
-    
-      
-    
 
     public Compra iniciarCompra(Cliente cliente) {
-        Compra c = new Compra(0.0f, cliente);
+        Compra c = new Compra(cliente);
         return c;
     }
 
@@ -148,9 +159,11 @@ public class Controller {
     public Cliente buscarCliente(String cpf) {
         return clientePer.buscarClienteNoArquivo(cpf);
     }
-     public boolean deletarCliente(String cpf) {
+
+    public boolean deletarCliente(String cpf) {
         return clientePer.deletarClienteDoArquivo(cpf);
     }
+
     public String recuperarTodosClientesComoString() {
         String s = "";
         for (Cliente c : this.clientePer.getClientes().values()) {
@@ -158,6 +171,5 @@ public class Controller {
         }
         return s;
     }
-
 
 }

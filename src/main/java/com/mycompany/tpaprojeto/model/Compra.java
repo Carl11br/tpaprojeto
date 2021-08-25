@@ -1,5 +1,6 @@
 package com.mycompany.tpaprojeto.model;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,27 +10,34 @@ public class Compra{
     Cliente cliente;
     float desconto;
 
-    public Compra(float total, Cliente cliente) {
-        this.total = total;
+    public Compra(Cliente cliente) {
+        this.total = 0;
         this.cliente = cliente;
         this.desconto = 0;//Calcular desconto baseado no comprasAcumuladas do cliente
         this.itens = new ArrayList<Item>();
     }
     public boolean add_Item(Item i)
     {
+       this.atualizarTotal(i.getSubtotal());
        return this.itens.add(i);
+       
     }
 
     public boolean remove_Item(Item i){
+         this.atualizarTotal(-i.getSubtotal());
         return this.itens.remove(i);
     }
     
     public float getTotal() {
         return total;
     }
+    public String getTotalComoString() {
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(total);
+    }
 
-    public void setTotal(float total) {
-        this.total = total;
+    private void atualizarTotal(float valor) {
+        this.total += valor;
     }
 
     public Cliente getCliente() {

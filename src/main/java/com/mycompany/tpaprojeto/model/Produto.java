@@ -1,6 +1,7 @@
 package com.mycompany.tpaprojeto.model;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 public class Produto implements Serializable {
     private int codigo;
@@ -39,7 +40,8 @@ public class Produto implements Serializable {
     @Override
     public String toString()
     {
-        return "Código: " + this.codigo + "\nNome: " + this.nome + "\nPreço: R$ "+ this.preco + "\n";
+        DecimalFormat df = new DecimalFormat("0.00");
+        return "Código: " + this.codigo + "\nNome: " + this.nome + "\nPreço: R$ "+ df.format(this.preco) + "\n";
     }
     
     

@@ -1,4 +1,5 @@
 package com.mycompany.tpaprojeto.view;
+
 import com.mycompany.tpaprojeto.controller.Controller;
 import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Compra;
@@ -126,7 +127,7 @@ public class View {
         System.out.println("Aperte ENTER para continuar ...");
         ler.nextLine();
         //Clears Screen in java
-       /* try {
+        /* try {
 
             if (System.getProperty("os.name").contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -161,6 +162,7 @@ public class View {
         Compra compra = ctr.iniciarCompra(cliente);
         while (op != 3 && op != 4) {
             this.exibirTodosItens(compra);
+            System.out.println("TOTAL: R$ "+ compra.getTotal());
             System.out.println("1-Adicionar item");
             System.out.println("2-Remover item");
             System.out.println("3-Concluir compra");
@@ -173,7 +175,6 @@ public class View {
                 case 2:
                     this.removerItem(compra);
                     break;
-                //case 2:
                 default:
                     break;
             }
@@ -182,41 +183,43 @@ public class View {
 
     public void adicionarItem(Compra compra) {
         System.out.println("Digite o código do produto:");
-        int cod = ler.nextInt();
+        int cod = lerInt();
         Produto p = ctr.buscarProduto(cod);
         if (p == null) {
             System.out.println("Não existe um produto cadastrado com esse código!");
         } else {
             System.out.println("Digite a quantidade de items ou o peso em quilo:");
-            float qtd = ler.nextFloat();
+            float qtd = lerFloat();
             Item i = ctr.criarItem(p, qtd);
+            if(i==null)
+                System.out.println("A quantidade deve ser um número positivo!");
+            else     
             ctr.adicionarItemACompra(i, compra);
         }
     }
 
-    public void removerItem(Compra compra){
-        if(compra.getItens().size() != 0) {
+    public void removerItem(Compra compra) {
+        if (compra.getItens().size() != 0) {
             System.out.println("Digite o código do produto que deseja remover da compra:");
             int cod = ler.nextInt();
             Produto p = ctr.buscarProduto(cod);
-
             if (p == null) {
                 System.out.println("Não existe um produto cadastrado com esse código!");
             } else {
-                if (ctr.removerItemDaCompra(p, compra)) {
+                if (ctr.removerItemDaCompra(cod, compra)) {
                     System.out.println("Item removido com sucesso!");
                 } else {
                     System.out.println("Não foi possível remover o item da compra,"
                             + " verifique se o código do produto foi digitado corretamente.");
                 }
             }
-        }else{
+        } else {
             System.out.println("Não há itens na compra para remover");
         }
     }
 
-     public void exibirTodosItens(Compra compra) {
-        System.out.println(ctr.recuperarTodosItensComoString(compra));
+    public void exibirTodosItens(Compra compra) {
+        System.out.print(ctr.recuperarTodosItensComoString(compra));
         System.out.println("----------------------");
     }
 
@@ -329,21 +332,19 @@ public class View {
         String cpf = lerCpfValido();
         String nome;
         Cliente c = ctr.buscarCliente(cpf);
-        if(c == null)
-        {
-           System.out.println("Digite o nome do cliente:");
-           nome  = ler.nextLine(); 
-           if(ctr.cadastrarCliente(cpf,nome))
-           {
-               System.out.println("Cliente cadastrado com sucesso!");
-           }
-           
-        }  
+        if (c == null) {
+            System.out.println("Digite o nome do cliente:");
+            nome = ler.nextLine();
+            if (ctr.cadastrarCliente(cpf, nome)) {
+                System.out.println("Cliente cadastrado com sucesso!");
+            }
+
+        }
         c = ctr.buscarCliente(cpf);
-        System.out.println("Seja bem-vindo(a), "+ c.getNome()+"!");
+        System.out.println("Seja bem-vindo(a), " + c.getNome() + "!");
         return c;
     }
-     
+
     public void menuCadastroCaixa() {
         boolean flag = true;
         System.out.println("------------------Menu Cadastro de Caixas------------------");
