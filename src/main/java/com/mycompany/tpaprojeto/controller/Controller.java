@@ -112,7 +112,7 @@ public class Controller {
         return s;
     }
 
-    public boolean cadastrarCliente(int cpf, String nome) {
+    public boolean cadastrarCliente(String cpf, String nome) {
         Cliente c = new Cliente(cpf, nome, 0.0f);
         return clientePer.adicionarClienteNoArquivo(c);
     }
@@ -121,10 +121,10 @@ public class Controller {
         return gerentePer.deletarGerenteDoArquivo(mat);
     }
 
-    public Cliente buscarCliente(int cpf) {
+    public Cliente buscarCliente(String cpf) {
         return clientePer.buscarClienteNoArquivo(cpf);
     }
-     public boolean deletarCliente(int cpf) {
+     public boolean deletarCliente(String cpf) {
         return clientePer.deletarClienteDoArquivo(cpf);
     }
     public String recuperarTodosClientesComoString() {

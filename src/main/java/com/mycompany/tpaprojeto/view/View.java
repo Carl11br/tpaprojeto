@@ -10,6 +10,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.Console;
+import java.util.InputMismatchException;
 
 public class View {
 
@@ -44,6 +45,78 @@ public class View {
         }
         return num;
     }
+
+    public String lerCpfValido() {
+        String cpf ="";
+        boolean flag = true;
+        while (flag) {
+            cpf = ler.nextLine().replaceAll("\\D", "");
+            if(ValidaCpf(cpf))
+                flag = false;
+            else
+                System.out.println("Digite um CPF válido!");
+        }
+
+        return cpf;
+    }
+   //Função para validar cpf disponível em
+   //https://www.devmedia.com.br/validando-o-cpf-em-uma-aplicacao-java/22097
+    public static boolean ValidaCpf(String CPF) {
+        // considera-se erro CPF's formados por uma sequencia de numeros iguais
+        if (CPF.equals("00000000000") ||
+            CPF.equals("11111111111") ||
+            CPF.equals("22222222222") || CPF.equals("33333333333") ||
+            CPF.equals("44444444444") || CPF.equals("55555555555") ||
+            CPF.equals("66666666666") || CPF.equals("77777777777") ||
+            CPF.equals("88888888888") || CPF.equals("99999999999") ||
+            (CPF.length() != 11))
+            return(false);
+
+        char dig10, dig11;
+        int sm, i, r, num, peso;
+
+        // "try" - protege o codigo para eventuais erros de conversao de tipo (int)
+        try {
+        // Calculo do 1o. Digito Verificador
+            sm = 0;
+            peso = 10;
+            for (i=0; i<9; i++) {
+        // converte o i-esimo caractere do CPF em um numero:
+        // por exemplo, transforma o caractere '0' no inteiro 0
+        // (48 eh a posicao de '0' na tabela ASCII)
+            num = (int)(CPF.charAt(i) - 48);
+            sm = sm + (num * peso);
+            peso = peso - 1;
+            }
+
+            r = 11 - (sm % 11);
+            if ((r == 10) || (r == 11))
+                dig10 = '0';
+            else dig10 = (char)(r + 48); // converte no respectivo caractere numerico
+
+        // Calculo do 2o. Digito Verificador
+            sm = 0;
+            peso = 11;
+            for(i=0; i<10; i++) {
+            num = (int)(CPF.charAt(i) - 48);
+            sm = sm + (num * peso);
+            peso = peso - 1;
+            }
+
+            r = 11 - (sm % 11);
+            if ((r == 10) || (r == 11))
+                 dig11 = '0';
+            else dig11 = (char)(r + 48);
+
+        // Verifica se os digitos calculados conferem com os digitos informados.
+            if ((dig10 == CPF.charAt(9)) && (dig11 == CPF.charAt(10)))
+                 return(true);
+            else return(false);
+                } catch (InputMismatchException erro) {
+                return(false);
+            }
+        }
+
 
     public void aperteEnterContinuar() {
         System.out.println("Aperte ENTER para continuar ...");
@@ -210,6 +283,7 @@ public class View {
         System.out.print(ctr.recuperarTodosProdutosComoString());
         System.out.println("----------------------");
     }
+
     //Criar função p associar cliente a compra
     /*public Cliente associarCliente() {
         System.out.println("Digite o cpf do cliente:");
@@ -218,7 +292,7 @@ public class View {
         if(c == null)
         c = ctr.cadastrarCliente(cpf);
     }
-*/
+     */
     public void menuCadastroCaixa() {
         boolean flag = true;
         System.out.println("------------------Menu Cadastro de Caixas------------------");
@@ -334,6 +408,7 @@ public class View {
             System.out.println("Já existe um Gerente cadastrado com essa matrícula!");
         }
     }
+
     public void deletarGerente() {
         System.out.println("Digite o matrícula do Gerente cujo cadastro será deletado:");
         int mat = lerInt();
@@ -344,13 +419,13 @@ public class View {
                     + " verifique se a matrícula foi digitada corretamente.");
         }
     }
+
     public void exibirTodosGerentes() {
         System.out.print(ctr.recuperarTodosGerentesComoString());
         System.out.println("----------------------");
     }
 
-    
-     public void menuCadastroCliente() {
+    public void menuCadastroCliente() {
         boolean flag = true;
         System.out.println("------------------Menu Cadastro de Clientes------------------");
         while (flag) {
@@ -378,9 +453,10 @@ public class View {
             }
         }
     }
-     public void cadastrarCliente() {
+
+    public void cadastrarCliente() {
         System.out.println("Digite o CPF do Cliente a ser cadastrado:");
-        int cpf = lerInt();
+        String cpf = lerCpfValido();
         if (ctr.buscarCliente(cpf) == null) {
             System.out.println("Digite o nome do Cliente a ser cadastrado:");
             String nome = ler.nextLine();
@@ -393,9 +469,10 @@ public class View {
             System.out.println("Já existe um Cliente cadastrado com esse CPF!");
         }
     }
-      public void deletarCliente() {
+
+    public void deletarCliente() {
         System.out.println("Digite o CPF do Cliente cujo cadastro será deletado:");
-        int cpf = lerInt();
+        String cpf = lerCpfValido();
         if (ctr.deletarCliente(cpf)) {
             System.out.println("Cadastro de Cliente deletado com sucesso!");
         } else {
@@ -403,7 +480,8 @@ public class View {
                     + " verifique se o CPF foi digitado corretamente.");
         }
     }
-      public void exibirTodosClientes() {
+
+    public void exibirTodosClientes() {
         System.out.print(ctr.recuperarTodosClientesComoString());
         System.out.println("----------------------");
     }

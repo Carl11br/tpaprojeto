@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 public class ClientePersitence {
-   private HashMap<Integer, Cliente> clientes;
+   private HashMap<String, Cliente> clientes;
 
     public ClientePersitence() {
         if(this.lerClientesDoArquivo() == false)
@@ -31,7 +31,7 @@ public class ClientePersitence {
     public boolean lerClientesDoArquivo() {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("clientes.bin"));
-            this.clientes = (HashMap<Integer, Cliente>) ois.readObject();
+            this.clientes = (HashMap<String, Cliente>) ois.readObject();
             ois.close();
             return true;
         } catch (IOException ex) {
@@ -52,7 +52,7 @@ public class ClientePersitence {
             return this.salvarClientesNoArquivo();
         }
     }
-    public boolean deletarClienteDoArquivo(int cpf)
+    public boolean deletarClienteDoArquivo(String cpf)
     {
         if (clientes.keySet().contains(cpf))
             clientes.remove(cpf);
@@ -61,7 +61,7 @@ public class ClientePersitence {
         return this.salvarClientesNoArquivo();
         
     }
-    public Cliente buscarClienteNoArquivo(int cpf)
+    public Cliente buscarClienteNoArquivo(String cpf)
     {
         if (clientes.keySet().contains(cpf))
             return clientes.get(cpf);
@@ -69,7 +69,7 @@ public class ClientePersitence {
             return null;
     }
 
-    public HashMap<Integer, Cliente> getClientes() {
+    public HashMap<String, Cliente> getClientes() {
         return clientes;
     } 
 }

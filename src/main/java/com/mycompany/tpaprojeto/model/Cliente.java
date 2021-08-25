@@ -3,21 +3,21 @@ package com.mycompany.tpaprojeto.model;
 import java.io.Serializable;
 
 public class Cliente implements Serializable {
-    int cpf;
+    String cpf;
     private String nome;
     float comprasAcumuladas;
 
-    public Cliente(int cpf, String nome, float comprasAcumuladas) {
+    public Cliente(String cpf, String nome, float comprasAcumuladas) {
         this.cpf = cpf;
         this.nome = nome;
         this.comprasAcumuladas = comprasAcumuladas;
     }
 
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
