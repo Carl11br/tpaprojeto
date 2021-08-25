@@ -3,6 +3,7 @@ package com.mycompany.tpaprojeto.view;
 import com.mycompany.tpaprojeto.controller.Controller;
 import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Compra;
+import com.mycompany.tpaprojeto.model.Gerente;
 import com.mycompany.tpaprojeto.model.Item;
 import com.mycompany.tpaprojeto.model.Produto;
 import java.util.Scanner;
@@ -160,9 +161,10 @@ public class View {
         op = 0;
         Cliente cliente = associarCliente();
         Compra compra = ctr.iniciarCompra(cliente);
-        while (op != 3 && op != 4) {
+        boolean cancelada = false;
+        while (op != 3 && cancelada == false) {
             this.exibirTodosItens(compra);
-            System.out.println("TOTAL: R$ "+ compra.getTotalComoString());
+            System.out.println("TOTAL: R$ " + compra.getTotalComoString());
             System.out.println("1-Adicionar item");
             System.out.println("2-Remover item");
             System.out.println("3-Concluir compra");
@@ -173,10 +175,16 @@ public class View {
                     this.adicionarItem(compra);
                     break;
                 case 2:
-                    this.removerItem(compra);
+                    if (autenticarGerente()) {
+                        this.removerItem(compra);
+                    }
                     break;
                 case 3:
                     this.concluirCompra(compra, cliente);
+                    break;
+                case 4:
+                    cancelada = cancelarCompra();
+
                     break;
                 default:
                     break;
@@ -184,11 +192,37 @@ public class View {
         }
     }
 
+    public boolean cancelarCompra() {
+        if (autenticarGerente()) {
+
+            System.out.println("Compra cancelada com sucesso!");
+            this.aperteEnterContinuar();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean autenticarGerente() {
+        System.out.println("Gerente, digite sua matrícula:");
+        int mat = lerInt();
+        String senha;
+        System.out.println("Digite a senha do Gerente a ser cadastrado:");
+        senha = ler.nextLine().replaceAll("[\\n]", "");
+        boolean b = ctr.autenticarGerente(mat, senha);
+        if (b == false) {
+            System.out.println("Matrícula e/ou senha errados!");
+            this.aperteEnterContinuar();
+        }
+       
+        return b;
+    }
+
     private void concluirCompra(Compra compra, Cliente cliente) {
-        if(ctr.finalizarCompra(compra, cliente))
+        if (ctr.finalizarCompra(compra, cliente)) {
             System.out.println("Compra concluída com sucesso!");
-        else
+        } else {
             System.out.println("Não foi possível concluir a compra!");
+        }
     }
 
     public void adicionarItem(Compra compra) {
@@ -201,10 +235,11 @@ public class View {
             System.out.println("Digite a quantidade de items ou o peso em quilo:");
             float qtd = lerFloat();
             Item i = ctr.criarItem(p, qtd);
-            if(i==null)
+            if (i == null) {
                 System.out.println("A quantidade deve ser um número positivo!");
-            else     
-            ctr.adicionarItemACompra(i, compra);
+            } else {
+                ctr.adicionarItemACompra(i, compra);
+            }
         }
     }
 

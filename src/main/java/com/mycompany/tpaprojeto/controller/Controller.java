@@ -146,7 +146,16 @@ public class Controller {
     public Gerente buscarGerente(int mat) {
         return gerentePer.buscarGerenteNoArquivo(mat);
     }
-
+    public boolean autenticarGerente(int mat, String senha)
+    {
+        Gerente g = buscarGerente(mat);
+        if(g!=null)
+        {
+            if(g.getSenha().equals(senha))
+                return true;
+        }
+        return false;
+    }
     public String recuperarTodosGerentesComoString() {
         String s = "";
         for (Gerente g : this.gerentePer.getGerentes().values()) {
