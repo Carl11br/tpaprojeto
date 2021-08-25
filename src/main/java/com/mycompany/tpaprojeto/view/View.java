@@ -163,6 +163,7 @@ public class View {
         Cliente cliente = associarCliente();
         Compra compra = ctr.iniciarCompra(cliente);
         while (op != 3 && op != 4) {
+            this.exibirTodosItens(compra);
             System.out.println("1-Adicionar item");
             System.out.println("2-Remover item");
             System.out.println("3-Concluir compra");
@@ -191,6 +192,10 @@ public class View {
             Item i = ctr.criarItem(p, qtd);
             ctr.adicionarItemACompra(i, compra);
         }
+    }
+     public void exibirTodosItens(Compra compra) {
+        System.out.print(ctr.recuperarTodosItensComoString(compra));
+        System.out.println("----------------------");
     }
 
     public void menuGerente() {

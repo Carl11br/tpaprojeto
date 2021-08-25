@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Compra{
     float total;
-    private List<Item> items;
+    private List<Item> itens;
     Cliente cliente;
     float desconto;
 
@@ -13,11 +13,11 @@ public class Compra{
         this.total = total;
         this.cliente = cliente;
         this.desconto = 0;//Calcular desconto baseado no comprasAcumuladas do cliente
-        this.items = new ArrayList<Item>();
+        this.itens = new ArrayList<Item>();
     }
     public boolean add_Item(Item i)
     {
-       return this.items.add(i);
+       return this.itens.add(i);
     }
     
     public float getTotal() {
@@ -44,8 +44,8 @@ public class Compra{
         this.desconto = desconto;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public List<Item> getItens() {
+        return itens;
     }
     
 }

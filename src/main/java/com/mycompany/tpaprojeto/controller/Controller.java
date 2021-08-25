@@ -78,6 +78,13 @@ public class Controller {
         compra.add_Item(i);
         return;
     }
+     public String recuperarTodosItensComoString(Compra compra) {
+        String s = "";
+        for (Item i : compra.getItens()) {
+            s = s + "----------------------\n" + i.toString();
+        }
+        return s;
+    }
     //public Item buscarItemMesmoProduto(int cod)
     
       

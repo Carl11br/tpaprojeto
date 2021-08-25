@@ -33,4 +33,10 @@ public class Item {
     public void setSubtotal(float subtotal) {
         this.subtotal = subtotal;
     }
+     @Override
+    public String toString()
+    {
+        return this.produto.toString() + "Quantidade: " + this.quantidade +
+                "Subtotal: R$ " + this.subtotal;
+    }
 }
