@@ -12,6 +12,8 @@ import com.mycompany.tpaprojeto.persistence.CompraPersitence;
 import com.mycompany.tpaprojeto.persistence.GerentePersitence;
 import com.mycompany.tpaprojeto.persistence.ProdutoPersitence;
 
+import java.util.List;
+
 public class Controller {
 
     ProdutoPersitence prodPer;
@@ -78,6 +80,17 @@ public class Controller {
         compra.add_Item(i);
         return;
     }
+
+    public boolean removerItemDaCompra(Produto p, Compra compra) {
+        Boolean b = false;
+        for(Item i: compra.getItens()){
+            if(i.getProduto() == p){
+                b = compra.remove_Item(i);
+            }
+        }
+        return b;
+    }
+
      public String recuperarTodosItensComoString(Compra compra) {
         String s = "";
         for (Item i : compra.getItens()) {
@@ -145,4 +158,6 @@ public class Controller {
         }
         return s;
     }
+
+
 }

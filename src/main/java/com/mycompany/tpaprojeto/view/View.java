@@ -151,7 +151,7 @@ public class View {
         op = lerInt();
         switch (op) {
             case 1:
-                //this.menuCompra(this.associarCliente());
+                //this.menuCompra();
                 break;
             default:
                 break;
@@ -172,7 +172,9 @@ public class View {
             switch (op) {
                 case 1:
                     this.adicionarItem(compra);
-
+                    break;
+                case 2:
+                    this.removerItem(compra);
                     break;
                 default:
                     break;
@@ -193,8 +195,30 @@ public class View {
             ctr.adicionarItemACompra(i, compra);
         }
     }
+
+    public void removerItem(Compra compra){
+        if(compra.getItens().size() != 0) {
+            System.out.println("Digite o código do produto que deseja remover da compra:");
+            int cod = ler.nextInt();
+            Produto p = ctr.buscarProduto(cod);
+
+            if (p == null) {
+                System.out.println("Não existe um produto cadastrado com esse código!");
+            } else {
+                if (ctr.removerItemDaCompra(p, compra)) {
+                    System.out.println("Item removido com sucesso!");
+                } else {
+                    System.out.println("Não foi possível remover o item da compra,"
+                            + " verifique se o código do produto foi digitado corretamente.");
+                }
+            }
+        }else{
+            System.out.println("Não há itens na compra para remover");
+        }
+    }
+
      public void exibirTodosItens(Compra compra) {
-        System.out.print(ctr.recuperarTodosItensComoString(compra));
+        System.out.println(ctr.recuperarTodosItensComoString(compra));
         System.out.println("----------------------");
     }
 

@@ -19,6 +19,10 @@ public class Compra{
     {
        return this.itens.add(i);
     }
+
+    public boolean remove_Item(Item i){
+        return this.itens.remove(i);
+    }
     
     public float getTotal() {
         return total;
