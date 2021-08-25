@@ -67,17 +67,21 @@ public class Controller {
 
     }
 
-    public Item criarItem(int cod, int qtd) {
-        //buscar produto no arquivo binário
-        Produto p = null;
+    public Item criarItem(Produto p, float qtd) {
         return new Item(p, qtd);
 
     }
 
     public void adicionarItemACompra(Item i, Compra compra) {
+        //checar se já tem um item com esse mesmo produto, 
+        //para aumentar a quantidade, ao invés de add outro item do msm produto
         compra.add_Item(i);
         return;
     }
+    //public Item buscarItemMesmoProduto(int cod)
+    
+      
+    
 
     public Compra iniciarCompra(Cliente cliente) {
         Compra c = new Compra(0.0f, cliente);

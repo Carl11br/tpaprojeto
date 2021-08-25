@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Compra{
     float total;
-    List<Item> items;
+    private List<Item> items;
     Cliente cliente;
     float desconto;
 
@@ -19,6 +19,7 @@ public class Compra{
     {
        return this.items.add(i);
     }
+    
     public float getTotal() {
         return total;
     }
@@ -41,6 +42,10 @@ public class Compra{
 
     public void setDesconto(float desconto) {
         this.desconto = desconto;
+    }
+
+    public List<Item> getItems() {
+        return items;
     }
     
 }

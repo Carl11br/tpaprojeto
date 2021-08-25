@@ -1,10 +1,10 @@
 package com.mycompany.tpaprojeto.model;
 public class Item {
     private Produto produto;
-    private int quantidade;
+    private float quantidade;
     private float subtotal;
 
-    public Item(Produto produto, int quantidade) {
+    public Item(Produto produto, float quantidade) {
         this.produto = produto;
         this.quantidade = quantidade;
         this.subtotal = produto.getPreco()*quantidade;
@@ -18,11 +18,11 @@ public class Item {
         this.produto = produto;
     }
 
-    public int getQuantidade() {
+    public float getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(float quantidade) {
         this.quantidade = quantidade;
     }
 
