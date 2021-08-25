@@ -1,10 +1,11 @@
 package com.mycompany.tpaprojeto.model;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Compra{
+public class Compra implements Serializable{
     float total;
     private List<Item> itens;
     Cliente cliente;

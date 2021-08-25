@@ -1,8 +1,9 @@
 package com.mycompany.tpaprojeto.model;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 
-public class Item {
+public class Item  implements Serializable{
 
     private Produto produto;
     private float quantidade;

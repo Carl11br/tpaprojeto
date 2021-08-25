@@ -186,9 +186,9 @@ public class View {
 
     private void concluirCompra(Compra compra, Cliente cliente) {
         if(ctr.finalizarCompra(compra, cliente))
-            System.out.println("Compra concluída com sucesso");
+            System.out.println("Compra concluída com sucesso!");
         else
-            System.out.println("Não foi possível concluir a compra");
+            System.out.println("Não foi possível concluir a compra!");
     }
 
     public void adicionarItem(Compra compra) {
