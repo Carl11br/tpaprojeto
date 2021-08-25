@@ -37,6 +37,6 @@ public class Item {
     public String toString()
     {
         return this.produto.toString() + "Quantidade: " + this.quantidade +
-                "\nSubtotal: R$ " + this.subtotal;
+                "\nSubtotal: R$ " + this.subtotal +"\n";
     }
 }
