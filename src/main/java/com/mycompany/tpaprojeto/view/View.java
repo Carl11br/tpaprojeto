@@ -1,13 +1,10 @@
 package com.mycompany.tpaprojeto.view;
-
 import com.mycompany.tpaprojeto.controller.Controller;
 import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Compra;
 import com.mycompany.tpaprojeto.model.Item;
 import com.mycompany.tpaprojeto.model.Produto;
-import java.io.IOException;
 import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.Console;
 import java.util.InputMismatchException;
@@ -129,7 +126,7 @@ public class View {
         System.out.println("Aperte ENTER para continuar ...");
         ler.nextLine();
         //Clears Screen in java
-        try {
+       /* try {
 
             if (System.getProperty("os.name").contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -138,7 +135,7 @@ public class View {
             }
 
         } catch (IOException | InterruptedException ex) {
-        }
+        }*/
         System.out.print("\f");
 
     }
@@ -172,8 +169,8 @@ public class View {
             switch (op) {
                 case 1:
                     this.adicionarItem(compra);
-
                     break;
+                //case 2:
                 default:
                     break;
             }
