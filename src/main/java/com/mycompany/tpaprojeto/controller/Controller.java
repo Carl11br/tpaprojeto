@@ -3,6 +3,7 @@ package com.mycompany.tpaprojeto.controller;
 import com.mycompany.tpaprojeto.model.Caixa;
 import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Compra;
+import com.mycompany.tpaprojeto.model.Gerente;
 import com.mycompany.tpaprojeto.model.Item;
 import com.mycompany.tpaprojeto.model.Produto;
 import com.mycompany.tpaprojeto.persistence.CaixaPersitence;
@@ -63,10 +64,11 @@ public class Controller {
         return this.caixaPer.adicionarCaixaNoArquivo(c);
     }
 
-    public void cadastrarGerente(int mat, String nome, String senha) {
-        //Checar se já existe gerente com essa matrícula.
-        Caixa c = new Caixa(mat, nome);
-        //add ao arq bin
+    public boolean cadastrarGerente(int mat, String nome, String senha) {
+        
+        Gerente g = new Gerente(mat,nome, senha);
+        return this.gerentePer.adicionarGerenteNoArquivo(g);
+        
     }
 
     public Item criarItem(int cod, int qtd) {
@@ -100,5 +102,20 @@ public class Controller {
 
     public boolean deletarCaixa(int mat) {
         return caixaPer.deletarCaixaDoArquivo(mat);
+    }
+
+    public Gerente buscarGerente(int mat) {
+         return gerentePer.buscarGerenteNoArquivo(mat);
+    }
+
+    public String recuperarTodosGerentesComoString() {
+        String s = "";
+        for (Gerente g : this.gerentePer.getGerentes().values()) {
+            s = s + "----------------------\n" + g.toString();
+        }
+        return s; 
+    }
+     public boolean deletarGerente(int mat) {
+        return gerentePer.deletarGerenteDoArquivo(mat);
     }
 }

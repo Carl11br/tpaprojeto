@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.Console;
 
 public class View {
 
@@ -58,7 +59,7 @@ public class View {
 
         } catch (IOException | InterruptedException ex) {
         }
-        System.out.print("\f"); 
+        System.out.print("\f");
 
     }
 
@@ -216,7 +217,7 @@ public class View {
         //verificar se cliente é cadastrado, recuperar ele e associar a compra
         return ctr.cadastrarCliente(cpf);
     }
-    
+
     public void menuCadastroCaixa() {
         boolean flag = true;
         System.out.println("------------------Menu Cadastro de Caixas------------------");
@@ -247,7 +248,7 @@ public class View {
     }
 
     public void cadastrarCaixa() {
-         System.out.println("Digite a matrícula do Caixa a ser cadastrado:");
+        System.out.println("Digite a matrícula do Caixa a ser cadastrado:");
         int mat = lerInt();
         if (ctr.buscarCaixa(mat) == null) {
             System.out.println("Digite o nome do Caixa a ser cadastrado:");
@@ -261,6 +262,7 @@ public class View {
             System.out.println("Já existe um Caixa cadastrado com essa matrícula!");
         }
     }
+
     public void deletarCaixa() {
         System.out.println("Digite o matrícula do Caixa cujo cadastro será deletado:");
         int mat = lerInt();
@@ -271,8 +273,78 @@ public class View {
                     + " verifique se a matrícula foi digitada corretamente.");
         }
     }
-     public void exibirTodosCaixas() {
+
+    public void exibirTodosCaixas() {
         System.out.print(ctr.recuperarTodosCaixasComoString());
+        System.out.println("----------------------");
+    }
+
+    public void menuCadastroGerente() {
+        boolean flag = true;
+        System.out.println("------------------Menu Cadastro de Gerentes------------------");
+        while (flag) {
+            System.out.println("1-Cadastrar Gerente");
+            System.out.println("2-Excluir cadastro de um Gerente");
+            System.out.println("3-Exibir todos os Gerentes cadastrados");
+            System.out.println("n-Digite outro número para sair do menu de produtos");
+            op = lerInt();
+            switch (op) {
+                case 1:
+                    cadastrarGerente();
+                    this.aperteEnterContinuar();
+                    break;
+                case 2:
+                    deletarGerente();
+                    this.aperteEnterContinuar();
+                    break;
+                case 3:
+                    exibirTodosGerentes();
+                    this.aperteEnterContinuar();
+                    break;
+                default:
+                    flag = false;
+                    break;
+            }
+        }
+    }
+
+    public void cadastrarGerente() {
+        System.out.println("Digite a matrícula do Gerente a ser cadastrado:");
+        int mat = lerInt();
+        String senha1 = "senha1", senha2 = "senha2";
+        if (ctr.buscarGerente(mat) == null) {
+            System.out.println("Digite o nome do Gerente a ser cadastrado:");
+            String nome = ler.nextLine();
+            while (!senha1.equals(senha2)) {
+                System.out.println("Digite a senha do Gerente a ser cadastrado:");
+                senha1 = ler.nextLine().replaceAll("[\\n]", "");
+                System.out.println("Digite novamente a senha do Gerente a ser cadastrado:");
+                senha2 = ler.nextLine().replaceAll("[\\n ]", "");
+                if (!senha1.equals(senha2)) {
+                    System.out.println("As senhas digitadas não coencidem!");
+                }
+            }
+            if (ctr.cadastrarGerente(mat, nome, senha2)) {
+                System.out.println("Gerente cadastrado com sucesso!");
+            } else {
+                System.out.println("Não foi possível cadastrar esse Gerente!");
+            }
+        } else {
+            System.out.println("Já existe um Gerente cadastrado com essa matrícula!");
+        }
+    }
+    public void deletarGerente() {
+        System.out.println("Digite o matrícula do Gerente cujo cadastro será deletado:");
+        int mat = lerInt();
+        if (ctr.deletarGerente(mat)) {
+            System.out.println("Cadastro de Gerente deletado com sucesso!");
+        } else {
+            System.out.println("Não foi possível deletar o cadastro desse Gerente,\n"
+                    + " verifique se a matrícula foi digitada corretamente.");
+        }
+    }
+    public void exibirTodosGerentes() {
+        System.out.print(ctr.recuperarTodosGerentesComoString());
         System.out.println("----------------------");
     }
 

@@ -61,7 +61,7 @@ public class GerentePersitence {
         return this.salvarGerentesNoArquivo();
         
     }
-    public Caixa buscarGerenteNoArquivo(int mat)
+    public Gerente buscarGerenteNoArquivo(int mat)
     {
         if (gerentes.keySet().contains(mat))
             return gerentes.get(mat);

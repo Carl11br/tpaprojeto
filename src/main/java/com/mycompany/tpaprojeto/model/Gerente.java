@@ -1,7 +1,7 @@
 package com.mycompany.tpaprojeto.model;
 public class Gerente extends Caixa  {
     private String senha;
-    public Gerente(String senha, int matricula, String nome) {
+    public Gerente(int matricula, String nome, String senha) {
         super(matricula, nome);
         this.senha = senha;
     }
