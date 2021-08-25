@@ -78,6 +78,19 @@ public class Controller {
         compra.add_Item(i);
         return;
     }
+<<<<<<< Updated upstream
+=======
+
+    public boolean removerItemDaCompra(Produto p, Compra compra) {
+        for(Item i: compra.getItens()){
+            if(i.getProduto() == p){
+                return compra.remove_Item(i);
+            }
+        }
+        return false;
+    }
+
+>>>>>>> Stashed changes
      public String recuperarTodosItensComoString(Compra compra) {
         String s = "";
         for (Item i : compra.getItens()) {
