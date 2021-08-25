@@ -4,7 +4,8 @@ public class Main {
     
     public static void main(String[] args) {      
         View v = new View();
-        v.menuProduto();
+        v.menuCadastroCaixa();
+        //v.menuProduto();
      
     }
 }

@@ -207,7 +207,7 @@ public class View {
 
     public void exibirTodosProdutos() {
         System.out.print(ctr.recuperarTodosProdutosComoString());
-        System.out.println("----------------------4");
+        System.out.println("----------------------");
     }
 
     public Cliente associarCliente() {
@@ -219,7 +219,7 @@ public class View {
     
     public void menuCadastroCaixa() {
         boolean flag = true;
-        System.out.println("------------------Menu Produtos------------------");
+        System.out.println("------------------Menu Cadastro de Caixas------------------");
         while (flag) {
             System.out.println("1-Cadastrar Caixa");
             System.out.println("2-Excluir cadastro de um Caixa");
@@ -232,11 +232,11 @@ public class View {
                     this.aperteEnterContinuar();
                     break;
                 case 2:
-                    deletarProduto();
+                    deletarCaixa();
                     this.aperteEnterContinuar();
                     break;
                 case 3:
-                    exibirTodosProdutos();
+                    exibirTodosCaixas();
                     this.aperteEnterContinuar();
                     break;
                 default:
@@ -260,6 +260,20 @@ public class View {
         } else {
             System.out.println("Já existe um Caixa cadastrado com essa matrícula!");
         }
+    }
+    public void deletarCaixa() {
+        System.out.println("Digite o matrícula do Caixa cujo cadastro será deletado:");
+        int mat = lerInt();
+        if (ctr.deletarCaixa(mat)) {
+            System.out.println("Cadastro de Caixa deletado com sucesso!");
+        } else {
+            System.out.println("Não foi possível deletar o cadastro desse Caixa,\n"
+                    + " verifique se a matrícula foi digitada corretamente.");
+        }
+    }
+     public void exibirTodosCaixas() {
+        System.out.print(ctr.recuperarTodosCaixasComoString());
+        System.out.println("----------------------");
     }
 
 }

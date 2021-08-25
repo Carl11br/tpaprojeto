@@ -26,6 +26,11 @@ public class Caixa implements Serializable {
     public void setMatricula(int matricula) {
         this.matricula = matricula;
     }
+    @Override
+    public String toString()
+    {
+        return "Matrícula: " + this.matricula + "\nNome: " + this.nome  + "\n";
+    }
     
     
 }
