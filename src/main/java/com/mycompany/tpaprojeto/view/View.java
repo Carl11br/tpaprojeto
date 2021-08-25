@@ -210,7 +210,7 @@ public class View {
         System.out.print(ctr.recuperarTodosProdutosComoString());
         System.out.println("----------------------");
     }
-
+    //Criar função p associar cliente a compra
     /*public Cliente associarCliente() {
         System.out.println("Digite o cpf do cliente:");
         int cpf = lerInt();
