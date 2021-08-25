@@ -162,7 +162,7 @@ public class View {
         Compra compra = ctr.iniciarCompra(cliente);
         while (op != 3 && op != 4) {
             this.exibirTodosItens(compra);
-            System.out.println("TOTAL: R$ "+ compra.getTotal());
+            System.out.println("TOTAL: R$ "+ compra.getTotalComoString());
             System.out.println("1-Adicionar item");
             System.out.println("2-Remover item");
             System.out.println("3-Concluir compra");
@@ -175,10 +175,20 @@ public class View {
                 case 2:
                     this.removerItem(compra);
                     break;
+                case 3:
+                    this.concluirCompra(compra, cliente);
+                    break;
                 default:
                     break;
             }
         }
+    }
+
+    private void concluirCompra(Compra compra, Cliente cliente) {
+        if(ctr.finalizarCompra(compra, cliente))
+            System.out.println("Compra concluída com sucesso");
+        else
+            System.out.println("Não foi possível concluir a compra");
     }
 
     public void adicionarItem(Compra compra) {

@@ -29,11 +29,11 @@ public class Compra{
     }
     
     public float getTotal() {
-        return total;
+        return total - total * getDesconto();
     }
     public String getTotalComoString() {
         DecimalFormat df = new DecimalFormat("0.00");
-        return df.format(total);
+        return df.format(this.getTotal());
     }
 
     private void atualizarTotal(float valor) {

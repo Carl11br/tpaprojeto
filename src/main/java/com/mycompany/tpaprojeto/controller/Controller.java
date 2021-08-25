@@ -119,6 +119,14 @@ public class Controller {
         return c;
     }
 
+    public boolean finalizarCompra(Compra compra, Cliente cliente){
+        if(this.compraPer.adicionarCompraNoArquivo(compra)) {
+            cliente.setComprasAcumuladas(cliente.getComprasAcumuladas() + 1);
+            return true;
+        }
+        return false;
+    }
+
     public Caixa buscarCaixa(int cod) {
         return caixaPer.buscarCaixaNoArquivo(cod);
     }
