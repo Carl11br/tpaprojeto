@@ -1,6 +1,7 @@
 package com.mycompany.tpaprojeto.view;
 
 import com.mycompany.tpaprojeto.controller.Controller;
+import com.mycompany.tpaprojeto.controller.DescontoController;
 import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Compra;
 import com.mycompany.tpaprojeto.model.Gerente;
@@ -16,6 +17,7 @@ public class View {
     Scanner ler = new Scanner(System.in);
     int op = 0;
     Controller ctr = new Controller();
+    DescontoController descontoCtrl = new DescontoController();
 
     public int lerInt() {
         int num = 0;
@@ -29,6 +31,22 @@ public class View {
             }
         }
         return num;
+    }
+    public int lerDesconto() {
+        int desc;
+        boolean flag = true;
+        do
+        {
+            desc = lerInt();
+            if((desc <1 || desc>100))
+            {
+                System.out.println("Digite um número entre 1 e 100:"); 
+                
+            }
+            else
+                flag = false;
+        }while(flag);
+        return desc;
     }
 
     public float lerFloat() {
@@ -194,6 +212,7 @@ public class View {
                 case 3:
                     //FALTA VERIFICAR SE TEM ITEM NA COMPRA
                     this.aplicarDesconto(compra);
+                    System.out.println("TOTAL: R$ " + compra.getTotalComoString());
                     this.concluirCompra(compra, cliente);
                     break;
                 case 4:
@@ -239,9 +258,13 @@ public class View {
        
         if (ctr.finalizarCompra(compra, cliente)) {
             System.out.println("Compra concluída com sucesso!");
+            
         } else {
             System.out.println("Não foi possível concluir a compra!");
+           
         }
+         this.aperteEnterContinuar();
+                 
     }
 
     public void adicionarItem(Compra compra) {
@@ -294,6 +317,7 @@ public class View {
         System.out.println("3-Acessar menu Gerente");
         System.out.println("4-Acessar menu Cliente");
         System.out.println("5-Acessar menu Compras");
+         System.out.println("6-Acessar menu Desconto");
         System.out.println("n-Digite outro número para sair do menu do Gerente");
         op = ler.nextInt();
         switch (op) {
@@ -312,6 +336,10 @@ public class View {
             case 5:
                 System.out.println("Temos que fazer ainda!");
                 break;
+             case 6:
+                menuCadastroDesconto();
+                break;
+
 
             default:
                 break;
@@ -621,4 +649,67 @@ public class View {
         System.out.print(ctr.recuperarTodosClientesComoString());
         System.out.println("----------------------");
     }
+    
+    public void menuCadastroDesconto() {
+        boolean flag = true;
+        System.out.println("------------------Menu Cadastro de Descontos------------------");
+        while (flag) {
+            System.out.println("1-Cadastrar Desconto");
+            System.out.println("2-Excluir cadastro de um Desconto");
+            System.out.println("3-Exibir todos os Descontos cadastrados");
+            System.out.println("n-Digite outro número para sair do menu de Clientes");
+            op = lerInt();
+            switch (op) {
+                case 1:
+                    cadastrarDesconto();
+                    this.aperteEnterContinuar();
+                    break;
+                case 2:
+                    deletarDesconto();
+                    this.aperteEnterContinuar();
+                    break;
+                case 3:
+                    exibirTodosDescontos();
+                    this.aperteEnterContinuar();
+                    break;
+                default:
+                    flag = false;
+                    break;
+            }
+        }
+    }
+     public void cadastrarDesconto() {
+        System.out.println("Digite um número de 1 a 100, para o desconto que você deseja dar:");
+        int desc = lerDesconto(); 
+        if (descontoCtrl.buscarDesconto(desc) == null) {
+            System.out.println("Digite o valor mínimo de total de compras acumuladas em reais para o desconto ser aplicado:");
+            float valorMin = lerFloat();
+            if (descontoCtrl.cadastrarDesconto(desc, valorMin)) {
+                System.out.println("Desconto cadastrado com sucesso!");
+            } else {
+                System.out.println("Não foi possível cadastrar esse desconto!");
+            }
+        } else {
+            System.out.println("Um desconto com essa porcentagem já está cadastrado!");
+        }
+    }
+
+    public void deletarDesconto() {
+        System.out.println("Digite um número de 1 a 100, para o desconto que você deseja deletar:");
+        int desc = lerDesconto();
+        if (descontoCtrl.deletarDesconto(desc)) {
+            System.out.println("Desconto deletado com sucesso!");
+        } else {
+            System.out.println("Não foi possível deletar esse desconto,\n"
+                    + " verifique se ele realmente está cadastrado!.");
+        }
+    }
+
+    public void exibirTodosDescontos() {
+        System.out.print(descontoCtrl.recuperarTodosDescontosComoString());
+        System.out.println("----------------------");
+    }
+
+    
+    
 }

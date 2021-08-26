@@ -25,6 +25,7 @@ public class  DescontoPersitence {
             oos.writeObject(descontos);
             oos.close();
         } catch (IOException ex) {
+            System.out.println("AQUI!");
             return false;
         }
         return true;

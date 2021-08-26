@@ -5,9 +5,10 @@
  */
 package com.mycompany.tpaprojeto.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Desconto {
+public class Desconto implements Serializable {
     private int desconto;
     private float valorMinimo;
 

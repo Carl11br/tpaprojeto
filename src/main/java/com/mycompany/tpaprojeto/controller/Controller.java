@@ -125,9 +125,11 @@ public class Controller {
 
     public boolean finalizarCompra(Compra compra, Cliente cliente){
         if(this.compraPer.adicionarCompraNoArquivo(compra)) {
-            cliente.setComprasAcumuladas(cliente.getComprasAcumuladas() + 1);
+            cliente.setComprasAcumuladas(cliente.getComprasAcumuladas() + compra.getTotal());
+            clientePer.salvarClientesNoArquivo();
             return true;
         }
+                
         return false;
     }
 
