@@ -143,14 +143,22 @@ public class View {
     }
 
     public void menuPrincipal() {
-
+        System.out.println("------------------Sistema Gerenciador de Mercados------------------");
         System.out.println("1-Iniciar compra");
         System.out.println("2-Acesso do gerente");
         System.out.println("3-Encerrar");
         op = lerInt();
         switch (op) {
             case 1:
-                //this.menuCompra();
+                this.menuCompra();
+                System.out.print("\f");
+                break;
+            case 2:
+                if (autenticarGerente())
+                {
+                    this.menuGerente();
+                    System.out.print("\f");
+                }
                 break;
             default:
                 break;
@@ -160,6 +168,7 @@ public class View {
     public void menuCompra() {
         op = 0;
         Cliente cliente = associarCliente();
+        System.out.println("\f");
         Compra compra = ctr.iniciarCompra(cliente);
         boolean cancelada = false;
         while (op != 3 && cancelada == false) {
@@ -184,7 +193,6 @@ public class View {
                     break;
                 case 4:
                     cancelada = cancelarCompra();
-
                     break;
                 default:
                     break;
@@ -269,12 +277,31 @@ public class View {
     }
 
     public void menuGerente() {
+        System.out.println("------------------Acesso do Gerente------------------");
         System.out.println("1-Acessar menu Produto");
-        System.out.println("2-Acessar menu Caixa/Gerente");
+        System.out.println("2-Acessar menu Caixa");
+        System.out.println("3-Acessar menu Gerente");
+        System.out.println("4-Acessar menu Cliente");
+        System.out.println("5-Acessar menu Compras");
+        System.out.println("n-Digite outro número para sair do menu do Gerente");
         op = ler.nextInt();
         switch (op) {
             case 1:
+                menuProduto();
                 break;
+            case 2:
+                menuCadastroCaixa();
+                break;
+            case 3:
+                menuCadastroGerente();
+                break;
+            case 4:
+                menuCadastroCliente();
+                break;
+            case 5:
+                System.out.println("Temos que fazer ainda!");
+                break;
+                
             default:
                 break;
         }
