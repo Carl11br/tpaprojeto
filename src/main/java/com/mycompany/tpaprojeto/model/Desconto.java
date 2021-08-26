@@ -8,10 +8,10 @@ package com.mycompany.tpaprojeto.model;
 import java.util.HashMap;
 
 public class Desconto {
-    private float desconto;
+    private int desconto;
     private float valorMinimo;
 
-    public Desconto(float desconto, float valorMinimo) {
+    public Desconto(int desconto, float valorMinimo) {
         this.desconto = desconto;
         this.valorMinimo = valorMinimo;
     }
@@ -24,11 +24,11 @@ public class Desconto {
         this.valorMinimo = valorMinimo;
     }
 
-    public float getDesconto() {
+    public int getDesconto() {
         return desconto;
     }
 
-    public void setDesconto(float desconto) {
+    public void setDesconto(int desconto) {
         this.desconto = desconto;
     }
     @Override

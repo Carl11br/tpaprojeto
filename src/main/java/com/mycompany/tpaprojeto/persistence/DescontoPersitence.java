@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class DescontoPersitence {
 
-    HashMap<Float, Desconto> descontos;
+    HashMap<Integer, Desconto> descontos;
 
     public DescontoPersitence() {
         if (this.lerDescontosDoArquivo() == false) {
@@ -33,7 +33,7 @@ public class DescontoPersitence {
     public boolean lerDescontosDoArquivo() {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("descontos.bin"));
-            this.descontos = (HashMap<Float, Desconto>) ois.readObject();
+            this.descontos = (HashMap<Integer, Desconto>) ois.readObject();
             ois.close();
             return true;
         } catch (IOException ex) {
@@ -44,7 +44,7 @@ public class DescontoPersitence {
 
     }
 
-    public boolean adicionarDescontoNoArquivo(float descontoPorcentagem, float valorMinimo) {
+    public boolean adicionarDescontoNoArquivo(int descontoPorcentagem, float valorMinimo) {
         Desconto d = new Desconto(descontoPorcentagem,valorMinimo);
         if (descontos.keySet().contains(descontoPorcentagem)) {
             return false;
@@ -54,7 +54,7 @@ public class DescontoPersitence {
         }
     }
 
-    public boolean deletarDescontoDoArquivo(float descontoPorcentagem) {
+    public boolean deletarDescontoDoArquivo(int descontoPorcentagem) {
         if (descontos.keySet().contains(descontoPorcentagem)) {
             descontos.remove(descontoPorcentagem);
         } else {
@@ -64,7 +64,7 @@ public class DescontoPersitence {
 
     }
 
-    public Desconto buscarDescontoNoArquivo(float descontoPorcentagem) {
+    public Desconto buscarDescontoNoArquivo(int descontoPorcentagem) {
         if (descontos.keySet().contains(descontoPorcentagem)) {
             return descontos.get(descontoPorcentagem);
         } else {
@@ -72,7 +72,7 @@ public class DescontoPersitence {
         }
     }
 
-    public HashMap<Float, Desconto> getDescontos() {
+    public HashMap<Integer, Desconto> getDescontos() {
         return descontos;
     }
 }
