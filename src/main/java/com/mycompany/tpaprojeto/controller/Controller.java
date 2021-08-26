@@ -3,12 +3,14 @@ package com.mycompany.tpaprojeto.controller;
 import com.mycompany.tpaprojeto.model.Caixa;
 import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Compra;
+import com.mycompany.tpaprojeto.model.Desconto;
 import com.mycompany.tpaprojeto.model.Gerente;
 import com.mycompany.tpaprojeto.model.Item;
 import com.mycompany.tpaprojeto.model.Produto;
 import com.mycompany.tpaprojeto.persistence.CaixaPersitence;
 import com.mycompany.tpaprojeto.persistence.ClientePersitence;
 import com.mycompany.tpaprojeto.persistence.CompraPersitence;
+import com.mycompany.tpaprojeto.persistence.DescontoPersitence;
 import com.mycompany.tpaprojeto.persistence.GerentePersitence;
 import com.mycompany.tpaprojeto.persistence.ProdutoPersitence;
 
@@ -21,6 +23,7 @@ public class Controller {
     GerentePersitence gerentePer;
     CompraPersitence compraPer;
     ClientePersitence clientePer;
+    DescontoPersitence descontoPer;
 
     Compra compra;
 
@@ -30,6 +33,7 @@ public class Controller {
         this.gerentePer = new GerentePersitence();
         this.compraPer = new CompraPersitence();
         this.clientePer = new ClientePersitence();
+        this.descontoPer = new DescontoPersitence();
     }
 
     public boolean cadastrarProduto(int cod, String nome, float preco) {
@@ -185,6 +189,13 @@ public class Controller {
         String s = "";
         for (Cliente c : this.clientePer.getClientes().values()) {
             s = s + "----------------------\n" + c.toString();
+        }
+        return s;
+    }
+    public String recuperarTodosDescontosComoString() {
+        String s = "";
+        for (Desconto d : this.descontoPer.getDescontos().values()) {
+            s = s + "----------------------\n" + d.toString();
         }
         return s;
     }
