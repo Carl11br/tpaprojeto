@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class ProdutoPersitence {
 
-    private HashMap<Integer, Produto> produtos;
+    private static HashMap<Integer, Produto> produtos;
 
     public ProdutoPersitence() {
         if(this.lerProdutosDoArquivo() == false)

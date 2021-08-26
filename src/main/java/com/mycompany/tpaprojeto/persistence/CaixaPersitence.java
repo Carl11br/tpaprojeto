@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 public class CaixaPersitence {
-    private HashMap<Integer, Caixa> caixas;
+    private static HashMap<Integer, Caixa> caixas;
 
     public CaixaPersitence() {
         if(this.lerCaixasDoArquivo() == false)

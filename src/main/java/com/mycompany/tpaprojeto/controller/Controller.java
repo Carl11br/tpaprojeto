@@ -167,14 +167,12 @@ public class Controller {
         }
         return s;
     }
-
+    public boolean deletarGerente(int mat) {
+        return gerentePer.deletarGerenteDoArquivo(mat);
+    }
     public boolean cadastrarCliente(String cpf, String nome) {
         Cliente c = new Cliente(cpf, nome, 0.0f);
         return clientePer.adicionarClienteNoArquivo(c);
-    }
-
-    public boolean deletarGerente(int mat) {
-        return gerentePer.deletarGerenteDoArquivo(mat);
     }
 
     public Cliente buscarCliente(String cpf) {
@@ -191,13 +189,23 @@ public class Controller {
             s = s + "----------------------\n" + c.toString();
         }
         return s;
+        
     }
-    public String recuperarTodosDescontosComoString() {
-        String s = "";
-        for (Desconto d : this.descontoPer.getDescontos().values()) {
-            s = s + "----------------------\n" + d.toString();
-        }
-        return s;
+    DescontoController dc = new DescontoController();
+    
+    public boolean aplicaDescontoCompra(Compra c)
+    {
+       int desconto =  dc.decidirDescontoCliente(c.getCliente());
+       if(desconto>0)
+       {
+       c.setDescontoRecebido(desconto);
+       float descontoEmReais = c.getTotal() * desconto/100;
+       c.setTotal(c.getTotal()-descontoEmReais);
+       return true;
+       }
+       return false;
+        
     }
+   
 
 }

@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 public class CompraPersitence {
-     private HashMap<Integer, Compra> compras;
+     private static HashMap<Integer, Compra> compras;
     public CompraPersitence() {
         if(this.lerComprasDoArquivo() == false)
             this.compras = new HashMap<>();

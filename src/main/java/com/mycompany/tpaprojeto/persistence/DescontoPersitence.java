@@ -9,9 +9,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
-public class DescontoPersitence {
+public class  DescontoPersitence {
 
-    HashMap<Integer, Desconto> descontos;
+    private static HashMap<Integer, Desconto> descontos;
 
     public DescontoPersitence() {
         if (this.lerDescontosDoArquivo() == false) {
@@ -44,12 +44,12 @@ public class DescontoPersitence {
 
     }
 
-    public boolean adicionarDescontoNoArquivo(int descontoPorcentagem, float valorMinimo) {
-        Desconto d = new Desconto(descontoPorcentagem,valorMinimo);
-        if (descontos.keySet().contains(descontoPorcentagem)) {
+    public boolean adicionarDescontoNoArquivo(Desconto d) {
+       
+        if (descontos.keySet().contains(d.getDesconto())) {
             return false;
         } else {
-            descontos.put(descontoPorcentagem, d);
+            descontos.put(d.getDesconto(), d);
             return this.salvarDescontosNoArquivo();
         }
     }

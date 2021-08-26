@@ -143,32 +143,35 @@ public class View {
     }
 
     public void menuPrincipal() {
-        System.out.println("------------------Sistema Gerenciador de Mercados------------------");
-        System.out.println("1-Iniciar compra");
-        System.out.println("2-Acesso do gerente");
-        System.out.println("3-Encerrar");
-        op = lerInt();
-        switch (op) {
-            case 1:
-                this.menuCompra();
-                System.out.print("\f");
-                break;
-            case 2:
-                if (autenticarGerente())
-                {
-                    this.menuGerente();
+        boolean encerrar = false;
+        while (encerrar == false) {
+            System.out.println("------------------Sistema Gerenciador de Mercados------------------");
+            System.out.println("1-Iniciar compra");
+            System.out.println("2-Acesso do gerente");
+            System.out.println("n-Digite qualquer outro número para encerrar");
+            op = lerInt();
+            switch (op) {
+                case 1:
+                    this.menuCompra();
                     System.out.print("\f");
-                }
-                break;
-            default:
-                break;
+                    break;
+                case 2:
+                    if (autenticarGerente()) {
+                        this.menuGerente();
+                        System.out.print("\f");
+                    }
+                    break;
+                default:
+                    encerrar = true;
+                    break;
+            }
         }
     }
 
     public void menuCompra() {
         op = 0;
         Cliente cliente = associarCliente();
-        System.out.println("\f");
+
         Compra compra = ctr.iniciarCompra(cliente);
         boolean cancelada = false;
         while (op != 3 && cancelada == false) {
@@ -190,6 +193,7 @@ public class View {
                     break;
                 case 3:
                     //FALTA VERIFICAR SE TEM ITEM NA COMPRA
+                    this.aplicarDesconto(compra);
                     this.concluirCompra(compra, cliente);
                     break;
                 case 4:
@@ -210,23 +214,29 @@ public class View {
         }
         return false;
     }
-
+    public void aplicarDesconto(Compra c)
+    {
+        if(ctr.aplicaDescontoCompra(c))
+            System.out.println("Parabéns! Você recebeu um desconto de "+ c.getDescontoRecebido() + "%!");
+        
+    }
     public boolean autenticarGerente() {
         System.out.println("Gerente, digite sua matrícula:");
         int mat = lerInt();
         String senha;
-        System.out.println("Digite a senha do Gerente a ser cadastrado:");
+        System.out.println("Gerente, digite sua senha:");
         senha = ler.nextLine().replaceAll("[\\n]", "");
         boolean b = ctr.autenticarGerente(mat, senha);
         if (b == false) {
             System.out.println("Matrícula e/ou senha errados!");
             this.aperteEnterContinuar();
         }
-       
+
         return b;
     }
 
     private void concluirCompra(Compra compra, Cliente cliente) {
+       
         if (ctr.finalizarCompra(compra, cliente)) {
             System.out.println("Compra concluída com sucesso!");
         } else {
@@ -302,7 +312,7 @@ public class View {
             case 5:
                 System.out.println("Temos que fazer ainda!");
                 break;
-                
+
             default:
                 break;
         }
@@ -414,6 +424,7 @@ public class View {
 
         }
         c = ctr.buscarCliente(cpf);
+        System.out.println("\f");
         System.out.println("Seja bem-vindo(a), " + c.getNome() + "!");
         return c;
     }

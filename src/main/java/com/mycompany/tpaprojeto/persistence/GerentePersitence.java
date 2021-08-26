@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 public class GerentePersitence {
-    private HashMap<Integer, Gerente> gerentes;
+    private static HashMap<Integer, Gerente> gerentes;
     public GerentePersitence() {
         if(this.lerGerentesDoArquivo() == false)
             this.gerentes = new HashMap<>();

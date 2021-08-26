@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Compra implements Serializable{
-    float total;
+    private float total;
     private List<Item> itens;
     Cliente cliente;
-    float desconto;
+    int descontoRecebido;
 
     public Compra(Cliente cliente) {
         this.total = 0;
         this.cliente = cliente;
-        this.desconto = 0;//Calcular desconto baseado no comprasAcumuladas do cliente
+        this.descontoRecebido = 0;//Calcular descontoRecebido baseado no comprasAcumuladas do cliente
         this.itens = new ArrayList<Item>();
     }
     public boolean add_Item(Item i)
@@ -30,7 +30,10 @@ public class Compra implements Serializable{
     }
     
     public float getTotal() {
-        return total - total * getDesconto();
+        return total;
+    }
+    public void setTotal(float total) {
+        this.total = total;
     }
     public String getTotalComoString() {
         DecimalFormat df = new DecimalFormat("0.00");
@@ -49,16 +52,18 @@ public class Compra implements Serializable{
         this.cliente = cliente;
     }
 
-    public float getDesconto() {
-        return desconto;
+    public int getDescontoRecebido() {
+        return descontoRecebido;
     }
 
-    public void setDesconto(float desconto) {
-        this.desconto = desconto;
+    public void setDescontoRecebido(int descontoRecebido) {
+        this.descontoRecebido = descontoRecebido;
     }
 
     public List<Item> getItens() {
         return itens;
     }
+
+    
     
 }

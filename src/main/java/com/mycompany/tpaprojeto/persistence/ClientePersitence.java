@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 public class ClientePersitence {
-   private HashMap<String, Cliente> clientes;
+   private static HashMap<String, Cliente> clientes;
 
     public ClientePersitence() {
         if(this.lerClientesDoArquivo() == false)
