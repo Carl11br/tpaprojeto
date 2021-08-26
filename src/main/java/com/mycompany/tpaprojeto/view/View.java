@@ -189,6 +189,7 @@ public class View {
                     }
                     break;
                 case 3:
+                    //FALTA VERIFICAR SE TEM ITEM NA COMPRA
                     this.concluirCompra(compra, cliente);
                     break;
                 case 4:
