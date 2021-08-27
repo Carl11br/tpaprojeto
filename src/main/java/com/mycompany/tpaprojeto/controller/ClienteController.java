@@ -1,6 +1,7 @@
 package com.mycompany.tpaprojeto.controller;
 
 import com.mycompany.tpaprojeto.model.Cliente;
+import com.mycompany.tpaprojeto.model.Produto;
 import com.mycompany.tpaprojeto.persistence.ClientePersitence;
 
 public class ClienteController {
@@ -27,5 +28,16 @@ public class ClienteController {
         }
         return s;
 
+    }
+
+    public boolean alterarCliente(String cpf, String nome) {
+        Cliente c;
+        if((c = buscarCliente(cpf)) != null){
+            c.setNome(nome);
+            if (clientePer.alterarClienteNoArquivo(c)){
+                return true;
+            }
+        }
+        return false;
     }
 }

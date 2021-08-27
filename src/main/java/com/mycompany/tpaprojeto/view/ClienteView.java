@@ -75,11 +75,11 @@ public class ClienteView  extends ViewTools{
             System.out.println("Cliente não encontrado!");
         } else {
             System.out.println("--------------");
-            System.out.print(c.toString());
+            System.out.print(c);
             System.out.println("--------------");
             System.out.println("Digite o novo nome do Cliente:");
             String nome = ler.nextLine();
-            if (clienteCtrl.deletarCliente(cpf) && clienteCtrl.cadastrarCliente(cpf, nome, c.getComprasAcumuladas())) {
+            if (clienteCtrl.alterarCliente(cpf, nome)) {
                 System.out.println("Cliente alterado com sucesso!");
             } else {
                 System.out.println("Não foi possível alterar esse Cliente!");
