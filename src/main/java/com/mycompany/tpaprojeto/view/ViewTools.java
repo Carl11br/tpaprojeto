@@ -7,8 +7,11 @@ import com.mycompany.tpaprojeto.controller.DescontoController;
 import com.mycompany.tpaprojeto.controller.GerenteController;
 import com.mycompany.tpaprojeto.controller.ItemController;
 import com.mycompany.tpaprojeto.controller.ProdutoController;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ViewTools {
 
@@ -56,6 +59,7 @@ public class ViewTools {
         } while (flag);
         return num;
     }
+
     public int lerIntPositivoEZero() {
         int num;
         boolean flag = true;
@@ -70,6 +74,7 @@ public class ViewTools {
         } while (flag);
         return num;
     }
+
     public int lerDesconto() {
         int desc;
         boolean flag = true;
@@ -196,22 +201,22 @@ public class ViewTools {
     public void aperteEnterContinuar() {
         System.out.println("Aperte ENTER para continuar ...");
         ler.nextLine();
-        //Clears Screen in java
-        /* try {
-
-            if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                Runtime.getRuntime().exec("clear");
-            }
-
-        } catch (IOException | InterruptedException ex) {
-        }*/
-        System.out.print("\f");
+        clearConsole();
+        
 
     }
 
     public String lerSenha() {
         return ler.nextLine().replaceAll("[\\n]", "");
+    }
+
+    public final static void clearConsole() {
+       try {  
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ViewTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ViewTools.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

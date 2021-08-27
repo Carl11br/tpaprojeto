@@ -6,6 +6,7 @@ public class GerenteView extends ViewTools {
     public void menuGerente() {
         boolean flag = true;
         while (flag) {
+            clearConsole();
             System.out.println("------------------Acesso do Gerente------------------");
             System.out.println("1-Acessar menu Produto");
             System.out.println("2-Acessar menu Caixa");
@@ -17,21 +18,27 @@ public class GerenteView extends ViewTools {
             op = lerInt();
             switch (op) {
                 case 1:
+                    clearConsole();
                     produtoVw.menuProduto();
                     break;
                 case 2:
+                    clearConsole();
                     caixaVw.menuCadastroCaixa();
                     break;
                 case 3:
+                    clearConsole();
                     gerenteVw.menuCadastroGerente();
                     break;
                 case 4:
+                    clearConsole();
                     clienteVw.menuCadastroCliente();
                     break;
                 case 5:
+                    clearConsole();
                     compraVw.menuRelatoriosCompras();
                     break;
                 case 6:
+                    clearConsole();
                     descontoVw.menuCadastroDesconto();
                     break;
 
@@ -44,6 +51,7 @@ public class GerenteView extends ViewTools {
 
     public void menuCadastroGerente() {
         boolean flag = true;
+        
         System.out.println("------------------Menu Cadastro de Gerentes------------------");
         while (flag) {
             System.out.println("1-Cadastrar Gerente");
@@ -54,18 +62,22 @@ public class GerenteView extends ViewTools {
             op = lerInt();
             switch (op) {
                 case 1:
+                    clearConsole();
                     cadastrarGerente();
                     this.aperteEnterContinuar();
                     break;
                 case 2:
+                    clearConsole();
                     deletarGerente();
                     this.aperteEnterContinuar();
                     break;
                 case 3:
+                    clearConsole();
                     this.alterarGerente();
                     this.aperteEnterContinuar();
                     break;
                 case 4:
+                    clearConsole();
                     exibirTodosGerentes();
                     this.aperteEnterContinuar();
                     break;

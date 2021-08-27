@@ -14,16 +14,20 @@ import static com.mycompany.tpaprojeto.view.ViewTools.produtoCtrl;
 public class CompraView extends ViewTools {
        
         
-         public void menuCompra() {
+        public void menuCompra() {
+        clearConsole();
         op = 0;
         Caixa caixa = associarCaixa();
         if (caixa == null) {
+            aperteEnterContinuar();
             return;
         }
         Cliente cliente = associarCliente();
         Compra compra = compraCtrl.iniciarCompra(cliente, caixa);
         boolean flag = true;
         while (flag) {
+            clearConsole();
+            System.out.println("----------------Menu Compra----------------");
             this.exibirTodosItensCompra(compra);
             System.out.println("TOTAL: R$ " + compra.getTotalComoString());
             System.out.println("1-Adicionar item");
@@ -197,7 +201,7 @@ public class CompraView extends ViewTools {
 
         }
         c = clienteCtrl.buscarCliente(cpf);
-        System.out.println("\f");
+        clearConsole();
         System.out.println("Seja bem-vindo(a), " + c.getNome() + "!");
         return c;
     }
