@@ -343,7 +343,7 @@ public class View {
             System.out.println("5-Acessar menu de Relátorios de Compras");
             System.out.println("6-Acessar menu Desconto");
             System.out.println("n-Digite outro número para sair do menu do Gerente");
-            op = ler.nextInt();
+            op = lerInt();
             switch (op) {
                 case 1:
                     menuProduto();
@@ -469,7 +469,7 @@ public class View {
         if (c == null) {
             System.out.println("Digite o nome do cliente:");
             nome = ler.nextLine();
-            if (ctr.cadastrarCliente(cpf, nome)) {
+            if (ctr.cadastrarCliente(cpf, nome, 0.0f)) {
                 System.out.println("Cliente cadastrado com sucesso!");
             }
 
@@ -499,7 +499,8 @@ public class View {
         while (flag) {
             System.out.println("1-Cadastrar Caixa");
             System.out.println("2-Excluir cadastro de um Caixa");
-            System.out.println("3-Exibir todos os Caixas cadastrados");
+            System.out.println("3-Alterar cadastro de um Caixa");
+            System.out.println("4-Exibir todos os Caixas cadastrados");
             System.out.println("n-Digite outro número para sair do menu de produtos");
             op = lerInt();
             switch (op) {
@@ -512,6 +513,10 @@ public class View {
                     this.aperteEnterContinuar();
                     break;
                 case 3:
+                    this.alterarCaixa();
+                    this.aperteEnterContinuar();
+                    break;
+                case 4:
                     exibirTodosCaixas();
                     this.aperteEnterContinuar();
                     break;
@@ -549,6 +554,27 @@ public class View {
         }
     }
 
+    public void alterarCaixa() {
+        System.out.println("Digite a matrícula do Caixa a ser alterado:");
+        int mat = lerIntPositivo();
+        Caixa c;
+        if ((c = ctr.buscarCaixa(mat)) == null) {
+            System.out.println("Caixa não encontrado!");
+        } else {
+            System.out.println("--------------");
+            System.out.print(c.toString());
+            System.out.println("--------------");
+            System.out.println("Digite o novo nome do Caixa:");
+            String nome = ler.nextLine();
+
+            if (ctr.deletarCaixa(mat) && ctr.cadastrarCaixa(mat, nome)) {
+                System.out.println("Caixa alterado com sucesso!");
+            } else {
+                System.out.println("Não foi possível alterar esse Caixa!");
+            }
+        }
+    }
+
     public void exibirTodosCaixas() {
         System.out.print(ctr.recuperarTodosCaixasComoString());
         System.out.println("----------------------");
@@ -560,7 +586,8 @@ public class View {
         while (flag) {
             System.out.println("1-Cadastrar Gerente");
             System.out.println("2-Excluir cadastro de um Gerente");
-            System.out.println("3-Exibir todos os Gerentes cadastrados");
+            System.out.println("3-Alterar cadastro de um Gerente");
+            System.out.println("4-Exibir todos os Gerentes cadastrados");
             System.out.println("n-Digite outro número para sair do menu de produtos");
             op = lerInt();
             switch (op) {
@@ -573,6 +600,10 @@ public class View {
                     this.aperteEnterContinuar();
                     break;
                 case 3:
+                    this.alterarGerente();
+                    this.aperteEnterContinuar();
+                    break;
+                case 4:
                     exibirTodosGerentes();
                     this.aperteEnterContinuar();
                     break;
@@ -623,6 +654,32 @@ public class View {
         }
     }
 
+    public void alterarGerente() {
+        System.out.println("Digite a matrícula do Gerente cujo cadastro será alterado:");
+        int mat = lerIntPositivo();
+        Gerente g;
+        if ((g = ctr.buscarGerente(mat)) == null) {
+            System.out.println("Gerente não encontrado!");
+        } else {
+            System.out.println("--------------");
+            System.out.print(g.toString());
+            System.out.println("--------------");
+            System.out.println("Digite o novo nome do Gerente:");
+            String nome = ler.nextLine();
+            int deletado = ctr.deletarGerente(mat);
+            if ( deletado == 1 && ctr.cadastrarGerente(mat, nome, g.getSenha())) {
+                System.out.println("Gerente alterado com sucesso!");
+            }
+            else if(deletado == -1)
+            {
+                System.out.println("Não é possível alterar o Gerente Padrão!");
+            }
+            else {
+                System.out.println("Não foi possível alterar esse Gerente!");
+            }
+        }
+    }
+
     public void exibirTodosGerentes() {
         System.out.print(ctr.recuperarTodosGerentesComoString());
         System.out.println("----------------------");
@@ -634,7 +691,8 @@ public class View {
         while (flag) {
             System.out.println("1-Cadastrar Cliente");
             System.out.println("2-Excluir cadastro de um Cliente");
-            System.out.println("3-Exibir todos os Clientes cadastrados");
+            System.out.println("3-Alterar cadastro de um Cliente");
+            System.out.println("4-Exibir todos os Clientes cadastrados");
             System.out.println("n-Digite outro número para sair do menu de Clientes");
             op = lerInt();
             switch (op) {
@@ -647,6 +705,10 @@ public class View {
                     this.aperteEnterContinuar();
                     break;
                 case 3:
+                    alterarCliente();
+                    this.aperteEnterContinuar();
+                    break;
+                case 4:
                     exibirTodosClientes();
                     this.aperteEnterContinuar();
                     break;
@@ -663,7 +725,7 @@ public class View {
         if (ctr.buscarCliente(cpf) == null) {
             System.out.println("Digite o nome do Cliente a ser cadastrado:");
             String nome = ler.nextLine();
-            if (ctr.cadastrarCliente(cpf, nome)) {
+            if (ctr.cadastrarCliente(cpf, nome,0.0f)) {
                 System.out.println("Cliente cadastrado com sucesso!");
             } else {
                 System.out.println("Não foi possível cadastrar esse Cliente!");
@@ -681,6 +743,26 @@ public class View {
         } else {
             System.out.println("Não foi possível deletar o cadastro desse Cliente,\n"
                     + " verifique se o CPF foi digitado corretamente.");
+        }
+    }
+
+    public void alterarCliente() {
+        System.out.println("Digite o cpf do Cliente a ser alterado:");
+        String cpf = lerCpfValido();
+        Cliente c;
+        if ((c = ctr.buscarCliente(cpf)) == null) {
+            System.out.println("Cliente não encontrado!");
+        } else {
+            System.out.println("--------------");
+            System.out.print(c.toString());
+            System.out.println("--------------");
+            System.out.println("Digite o novo nome do Cliente:");
+            String nome = ler.nextLine();
+            if (ctr.deletarCliente(cpf) && ctr.cadastrarCliente(cpf, nome,c.getComprasAcumuladas())) {
+                System.out.println("Cliente alterado com sucesso!");
+            } else {
+                System.out.println("Não foi possível alterar esse Cliente!");
+            }
         }
     }
 

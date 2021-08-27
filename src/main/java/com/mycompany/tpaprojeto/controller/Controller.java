@@ -169,8 +169,8 @@ public class Controller {
     public int deletarGerente(int mat) {
         return gerentePer.deletarGerenteDoArquivo(mat);
     }
-    public boolean cadastrarCliente(String cpf, String nome) {
-        Cliente c = new Cliente(cpf, nome, 0.0f);
+    public boolean cadastrarCliente(String cpf, String nome, float totalComprasAcumuladas) {
+        Cliente c = new Cliente(cpf, nome, totalComprasAcumuladas);
         return clientePer.adicionarClienteNoArquivo(c);
     }
 
