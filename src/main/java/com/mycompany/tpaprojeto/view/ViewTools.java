@@ -1,11 +1,33 @@
 package com.mycompany.tpaprojeto.view;
 
+import com.mycompany.tpaprojeto.controller.CaixaController;
+import com.mycompany.tpaprojeto.controller.ClienteController;
+import com.mycompany.tpaprojeto.controller.CompraController;
+import com.mycompany.tpaprojeto.controller.DescontoController;
+import com.mycompany.tpaprojeto.controller.GerenteController;
+import com.mycompany.tpaprojeto.controller.ItemController;
+import com.mycompany.tpaprojeto.controller.ProdutoController;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class ViewTools  {
-    static Scanner ler = new Scanner(System.in);
-    static int op = 0;
+public class ViewTools {
+
+    protected static final DescontoController descontoCtrl = new DescontoController();
+    protected static final CompraController compraCtrl = new CompraController();
+    protected static final ItemController itemCtrl = new ItemController();
+    protected static final CaixaController caixaCtrl = new CaixaController();
+    protected static final GerenteController gerenteCtrl = new GerenteController();
+    protected static final ClienteController clienteCtrl = new ClienteController();
+    protected static final ProdutoController produtoCtrl = new ProdutoController();
+    protected static final ProdutoView produtoVw = new ProdutoView();
+    protected static final CaixaView caixaVw = new CaixaView();
+    protected static final ClienteView clienteVw = new ClienteView();
+    protected static final CompraView compraVw = new CompraView();
+    protected static final DescontoView descontoVw = new DescontoView();
+    protected static final GerenteView gerenteVw = new GerenteView();
+    protected static Scanner ler = new Scanner(System.in);
+    protected static int op = 0;
+
     public int lerInt() {
         int num = 0;
         boolean flag = true;
@@ -63,7 +85,8 @@ public class ViewTools  {
         }
         return num;
     }
-     public float lerFloatPositivo() {
+
+    public float lerFloatPositivo() {
         float num;
         boolean flag = true;
         do {
@@ -174,8 +197,8 @@ public class ViewTools  {
         System.out.print("\f");
 
     }
-    public String lerSenha()
-    {
+
+    public String lerSenha() {
         return ler.nextLine().replaceAll("[\\n]", "");
     }
 }
