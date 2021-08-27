@@ -78,6 +78,10 @@ public class Compra implements Serializable{
     public void setCaixa(Caixa caixa) {
         this.caixa = caixa;
     }
+    public boolean verificarCompraVazia()
+    {
+        return this.itens.isEmpty();
+    }
 
     
     

@@ -211,14 +211,15 @@ public class View {
         }
         Cliente cliente = associarCliente();
         Compra compra = ctr.iniciarCompra(cliente, caixa);
-        boolean cancelada = false;
-        while (op != 3 && cancelada == false) {
+        boolean flag = true;
+        while (flag) {
             this.exibirTodosItens(compra);
             System.out.println("TOTAL: R$ " + compra.getTotalComoString());
             System.out.println("1-Adicionar item");
             System.out.println("2-Remover item");
             System.out.println("3-Concluir compra");
             System.out.println("4-Cancelar Compra");
+            System.out.println("n-Voltar(somente se não tiver nenhum item na compra)");
             op = lerInt();
             switch (op) {
                 case 1:
@@ -230,15 +231,36 @@ public class View {
                     }
                     break;
                 case 3:
-                    //FALTA VERIFICAR SE TEM ITEM NA COMPRA
+                    if(ctr.verificarCompraVazia(compra))
+                    {
+                       System.out.println("Não é possível concluir uma compra que não contenha itens!");
+                       this.aperteEnterContinuar();;
+                       
+                    }
+                    else
+                    {
                     this.aplicarDesconto(compra);
                     System.out.println("TOTAL: R$ " + compra.getTotalComoString());
                     this.concluirCompra(compra, cliente);
+                    flag = false;
+                    }
+                    
+
                     break;
                 case 4:
-                    cancelada = cancelarCompra();
+                    flag = !cancelarCompra();
                     break;
                 default:
+                    if(ctr.verificarCompraVazia(compra))
+                    {
+                        flag = false;
+                    }
+                    else
+                    {
+                      System.out.println("Não é possível voltar quando existem itens na compra!\n"
+                              + "Conclua ou cancele a compra!");
+                     this.aperteEnterContinuar();
+                    }
                     break;
             }
         }
@@ -277,7 +299,7 @@ public class View {
     }
 
     private void concluirCompra(Compra compra, Cliente cliente) {
-
+        
         if (ctr.finalizarCompra(compra, cliente)) {
             System.out.println("Compra concluída com sucesso!");
 

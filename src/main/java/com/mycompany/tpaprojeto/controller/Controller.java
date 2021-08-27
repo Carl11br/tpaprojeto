@@ -119,7 +119,10 @@ public class Controller {
         Compra c = new Compra(cliente,caixa);
         return c;
     }
-
+    public boolean verificarCompraVazia(Compra compra)
+    {
+        return compra.verificarCompraVazia();
+    }
     public boolean finalizarCompra(Compra compra, Cliente cliente){
         if(this.compraPer.adicionarCompraNoArquivo(compra)) {
             cliente.setComprasAcumuladas(cliente.getComprasAcumuladas() + compra.getTotal());
