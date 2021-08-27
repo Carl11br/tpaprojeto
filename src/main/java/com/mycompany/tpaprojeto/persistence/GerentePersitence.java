@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class GerentePersitence {
     private static HashMap<Integer, Gerente> gerentes;
-    private static  Gerente gerentePadrao = new Gerente(1,"admin","admin");
+    private static  Gerente gerentePadrao = new Gerente(1,"Gerente Padrão","admin");
     public GerentePersitence() {
         if(this.lerGerentesDoArquivo() == false)
             this.gerentes = new HashMap<>();
