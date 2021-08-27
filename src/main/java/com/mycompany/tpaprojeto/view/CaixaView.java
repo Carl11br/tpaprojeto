@@ -7,8 +7,8 @@ public class CaixaView extends ViewTools {
 
     public void menuCadastroCaixa() {
         boolean flag = true;
-        System.out.println("------------------Menu Cadastro de Caixas------------------");
         while (flag) {
+            System.out.println("------------------Menu Cadastro de Caixas------------------");
             System.out.println("1-Cadastrar Caixa");
             System.out.println("2-Excluir cadastro de um Caixa");
             System.out.println("3-Alterar cadastro de um Caixa");

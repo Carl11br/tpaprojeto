@@ -23,6 +23,7 @@ public class CompraView extends ViewTools {
             return;
         }
         Cliente cliente = associarCliente();
+        aperteEnterContinuar();
         Compra compra = compraCtrl.iniciarCompra(cliente, caixa);
         boolean flag = true;
         while (flag) {
@@ -39,10 +40,12 @@ public class CompraView extends ViewTools {
             switch (op) {
                 case 1:
                     this.adicionarItem(compra);
+                    aperteEnterContinuar();
                     break;
                 case 2:
                     if (gerenteVw.autenticarGerente()) {
                         this.removerItem(compra);
+                        aperteEnterContinuar();
                     }
                     break;
                 case 3:
@@ -53,7 +56,7 @@ public class CompraView extends ViewTools {
                     } else {
                         this.aplicarDesconto(compra);
                         System.out.println("TOTAL: R$ " + compra.getTotalComoString());
-                        this.concluirCompra(compra, cliente);
+                        flag = !this.concluirCompra(compra, cliente);
                         flag = false;
                     }
 
@@ -92,16 +95,22 @@ public class CompraView extends ViewTools {
     }
 
   
-    private void concluirCompra(Compra compra, Cliente cliente) {
-
+    private boolean concluirCompra(Compra compra, Cliente cliente) {
+        System.out.println("Deseja mesmo concluir a compra?\n1-Sim\n2 ou outro nº-Não");
+        int escolha = lerInt();
+        if(escolha == 1)
+        {
         if (compraCtrl.finalizarCompra(compra, cliente)) {
             System.out.println("Compra concluída com sucesso!");
-
+            this.aperteEnterContinuar();
+            return true;
         } else {
             System.out.println("Não foi possível concluir a compra!");
-
+            
+        }
         }
         this.aperteEnterContinuar();
+        return false;
 
     }
 
