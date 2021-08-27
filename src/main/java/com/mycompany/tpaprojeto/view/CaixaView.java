@@ -79,7 +79,7 @@ public class CaixaView extends ViewTools {
             System.out.println("Digite o novo nome do Caixa:");
             String nome = ler.nextLine();
 
-            if (caixaCtrl.deletarCaixa(mat) && caixaCtrl.cadastrarCaixa(mat, nome)) {
+            if (caixaCtrl.alterarCaixa(mat, nome)) {
                 System.out.println("Caixa alterado com sucesso!");
             } else {
                 System.out.println("Não foi possível alterar esse Caixa!");

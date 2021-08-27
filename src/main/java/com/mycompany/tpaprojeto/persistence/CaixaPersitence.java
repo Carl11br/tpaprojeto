@@ -78,5 +78,14 @@ public class CaixaPersitence {
     public HashMap<Integer, Caixa> getCaixas() {
         return caixas;
     }
-    
+
+    public boolean alterarCaixaNoArquivo(Caixa c) {
+        if (!(caixas.keySet().contains(c.getMatricula())))//matrícula não cadastrada
+        {
+            return false;
+        } else {
+            caixas.put(c.getMatricula(), c);
+            return this.salvarCaixasNoArquivo();
+        }
+    }
 }
