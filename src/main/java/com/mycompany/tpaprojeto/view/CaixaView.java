@@ -13,7 +13,7 @@ public class CaixaView extends ViewTools {
             System.out.println("2-Excluir cadastro de um Caixa");
             System.out.println("3-Alterar cadastro de um Caixa");
             System.out.println("4-Exibir todos os Caixas cadastrados");
-            System.out.println("n-Digite outro número para sair do menu de produtos");
+            System.out.println("n-Digite outro número para sair do menu de Caixas");
             op = lerInt();
             switch (op) {
                 case 1:

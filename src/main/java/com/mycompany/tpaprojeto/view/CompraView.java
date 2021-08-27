@@ -149,7 +149,7 @@ public class CompraView extends ViewTools {
         while (flag) {
             System.out.println("1-Exibir todas as compras");
             System.out.println("2-Excluir n compras mais antigas");
-            System.out.println("n-Digite outro número para sair o menu de Clientes");
+            System.out.println("n-Digite outro número para sair o menu de relatórios de compras");
             op = lerInt();
             switch (op) {
                 case 1:
