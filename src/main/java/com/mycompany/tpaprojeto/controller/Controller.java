@@ -66,73 +66,7 @@ public class Controller {
         return this.caixaPer.adicionarCaixaNoArquivo(c);
     }
 
-    public boolean cadastrarGerente(int mat, String nome, String senha) {
-
-        Gerente g = new Gerente(mat, nome, senha);
-        return this.gerentePer.adicionarGerenteNoArquivo(g);
-
-    }
-
-    public Item criarItem(Produto p, float qtd) {
-        if(qtd>0)
-            return new Item(p, qtd);
-        return null;
-
-    }
-
-    public void adicionarItemACompra(Item i, Compra compra) {
-        Item itemBuscado = buscarItemNaCompra(i.getProduto().getCodigo(),compra);
-        if(itemBuscado==null)
-            compra.add_Item(i);
-        else
-        {
-            itemBuscado.aumentarQuantidade(i.getQuantidade());
-        }
-    }
-
-    public Item buscarItemNaCompra(int cod, Compra compra) {
-        for (Item i : compra.getItens()) {
-            if (i.getProduto().getCodigo() == cod) {
-                return i;
-            }
-        }
-        return null;
-    }
-
-    public boolean removerItemDaCompra(int cod, Compra compra) {
-        Item i = buscarItemNaCompra(cod, compra);
-        if (i != null) {
-            return compra.remove_Item(i);
-        }
-        return false;
-    }
-
-    public String recuperarTodosItensComoString(Compra compra) {
-        String s = "";
-        for (Item i : compra.getItens()) {
-            s = s + "----------------------\n" + i.toString();
-        }
-        return s;
-    }
-
-    public Compra iniciarCompra(Cliente cliente, Caixa caixa) {
-        Compra c = new Compra(cliente,caixa);
-        return c;
-    }
-    public boolean verificarCompraVazia(Compra compra)
-    {
-        return compra.verificarCompraVazia();
-    }
-    public boolean finalizarCompra(Compra compra, Cliente cliente){
-        if(this.compraPer.adicionarCompraNoArquivo(compra)) {
-            cliente.setComprasAcumuladas(cliente.getComprasAcumuladas() + compra.getTotal());
-            clientePer.salvarClientesNoArquivo();
-            return true;
-        }
-                
-        return false;
-    }
-
+ 
     public Caixa buscarCaixa(int cod) {
         return caixaPer.buscarCaixaNoArquivo(cod);
     }
@@ -149,29 +83,7 @@ public class Controller {
         return caixaPer.deletarCaixaDoArquivo(mat);
     }
 
-    public Gerente buscarGerente(int mat) {
-        return gerentePer.buscarGerenteNoArquivo(mat);
-    }
-    public boolean autenticarGerente(int mat, String senha)
-    {
-        Gerente g = buscarGerente(mat);
-        if(g!=null)
-        {
-            if(g.getSenha().equals(senha))
-                return true;
-        }
-        return false;
-    }
-    public String recuperarTodosGerentesComoString() {
-        String s = "";
-        for (Gerente g : this.gerentePer.getGerentes().values()) {
-            s = s + "----------------------\n" + g.toString();
-        }
-        return s;
-    }
-    public int deletarGerente(int mat) {
-        return gerentePer.deletarGerenteDoArquivo(mat);
-    }
+   
     public boolean cadastrarCliente(String cpf, String nome, float totalComprasAcumuladas) {
         Cliente c = new Cliente(cpf, nome, totalComprasAcumuladas);
         return clientePer.adicionarClienteNoArquivo(c);

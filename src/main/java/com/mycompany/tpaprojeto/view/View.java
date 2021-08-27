@@ -3,6 +3,8 @@ package com.mycompany.tpaprojeto.view;
 import com.mycompany.tpaprojeto.controller.CompraController;
 import com.mycompany.tpaprojeto.controller.Controller;
 import com.mycompany.tpaprojeto.controller.DescontoController;
+import com.mycompany.tpaprojeto.controller.GerenteController;
+import com.mycompany.tpaprojeto.controller.ItemController;
 import com.mycompany.tpaprojeto.model.Caixa;
 import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Compra;
@@ -20,6 +22,8 @@ public class View extends ViewTools{
     Controller ctr = new Controller();
     DescontoController descontoCtrl = new DescontoController();
     CompraController compraCtrl = new CompraController();
+    ItemController itemCtrl = new ItemController();
+    private static final GerenteController gerenteCtrl = new GerenteController();
 
  
     public void menuPrincipal() {
@@ -55,10 +59,10 @@ public class View extends ViewTools{
             return;
         }
         Cliente cliente = associarCliente();
-        Compra compra = ctr.iniciarCompra(cliente, caixa);
+        Compra compra = compraCtrl.iniciarCompra(cliente, caixa);
         boolean flag = true;
         while (flag) {
-            this.exibirTodosItens(compra);
+            this.exibirTodosItensCompra(compra);
             System.out.println("TOTAL: R$ " + compra.getTotalComoString());
             System.out.println("1-Adicionar item");
             System.out.println("2-Remover item");
@@ -76,10 +80,10 @@ public class View extends ViewTools{
                     }
                     break;
                 case 3:
-                    if(ctr.verificarCompraVazia(compra))
+                    if(compraCtrl.verificarCompraVazia(compra))
                     {
                        System.out.println("Não é possível concluir uma compra que não contenha itens!");
-                       this.aperteEnterContinuar();;
+                       this.aperteEnterContinuar();
                        
                     }
                     else
@@ -96,7 +100,7 @@ public class View extends ViewTools{
                     flag = !cancelarCompra();
                     break;
                 default:
-                    if(ctr.verificarCompraVazia(compra))
+                    if(compraCtrl.verificarCompraVazia(compra))
                     {
                         flag = false;
                     }
@@ -134,7 +138,7 @@ public class View extends ViewTools{
         String senha;
         System.out.println("Gerente, digite sua senha:");
         senha = lerSenha();
-        boolean b = ctr.autenticarGerente(mat, senha);
+        boolean b = gerenteCtrl.autenticarGerente(mat, senha);
         if (b == false) {
             System.out.println("Matrícula e/ou senha errados!");
             this.aperteEnterContinuar();
@@ -145,7 +149,7 @@ public class View extends ViewTools{
 
     private void concluirCompra(Compra compra, Cliente cliente) {
         
-        if (ctr.finalizarCompra(compra, cliente)) {
+        if (compraCtrl.finalizarCompra(compra, cliente)) {
             System.out.println("Compra concluída com sucesso!");
 
         } else {
@@ -165,11 +169,11 @@ public class View extends ViewTools{
         } else {
             System.out.println("Digite a quantidade de items ou o peso em quilo:");
             float qtd = lerFloatPositivo();
-            Item i = ctr.criarItem(p, qtd);
+            Item i = itemCtrl.criarItem(p, qtd);
             if (i == null) {
                 System.out.println("A quantidade deve ser um número positivo!");
             } else {
-                ctr.adicionarItemACompra(i, compra);
+                compraCtrl.adicionarItemACompra(i, compra);
             }
         }
     }
@@ -182,7 +186,7 @@ public class View extends ViewTools{
             if (p == null) {
                 System.out.println("Não existe um produto cadastrado com esse código!");
             } else {
-                if (ctr.removerItemDaCompra(cod, compra)) {
+                if (compraCtrl.removerItemDaCompra(cod, compra)) {
                     System.out.println("Item removido com sucesso!");
                 } else {
                     System.out.println("Não foi possível remover o item da compra,"
@@ -194,8 +198,8 @@ public class View extends ViewTools{
         }
     }
 
-    public void exibirTodosItens(Compra compra) {
-        System.out.print(ctr.recuperarTodosItensComoString(compra));
+    public void exibirTodosItensCompra(Compra compra) {
+        System.out.print(compraCtrl.recuperarTodosItensDaCompraComoString(compra));
         System.out.println("----------------------");
     }
 
@@ -485,7 +489,7 @@ public class View extends ViewTools{
         System.out.println("Digite a matrícula do Gerente a ser cadastrado:");
         int mat = lerIntPositivo();
         String senha1 = "senha1", senha2 = "senha2";
-        if (ctr.buscarGerente(mat) == null) {
+        if (gerenteCtrl.buscarGerente(mat) == null) {
             System.out.println("Digite o nome do Gerente a ser cadastrado:");
             String nome = ler.nextLine();
             while (!senha1.equals(senha2)) {
@@ -497,7 +501,7 @@ public class View extends ViewTools{
                     System.out.println("As senhas digitadas não coencidem!");
                 }
             }
-            if (ctr.cadastrarGerente(mat, nome, senha2)) {
+            if (gerenteCtrl.cadastrarGerente(mat, nome, senha2)) {
                 System.out.println("Gerente cadastrado com sucesso!");
             } else {
                 System.out.println("Não foi possível cadastrar esse Gerente!");
@@ -510,7 +514,7 @@ public class View extends ViewTools{
     public void deletarGerente() {
         System.out.println("Digite o matrícula do Gerente cujo cadastro será deletado:");
         int mat = lerIntPositivo();
-        int conseguiuDeletar = ctr.deletarGerente(mat);
+        int conseguiuDeletar = gerenteCtrl.deletarGerente(mat);
         if (conseguiuDeletar == 1) {
             System.out.println("Cadastro de Gerente deletado com sucesso!");
         } else if (conseguiuDeletar == 0) {
@@ -525,7 +529,7 @@ public class View extends ViewTools{
         System.out.println("Digite a matrícula do Gerente cujo cadastro será alterado:");
         int mat = lerIntPositivo();
         Gerente g;
-        if ((g = ctr.buscarGerente(mat)) == null) {
+        if ((g = gerenteCtrl.buscarGerente(mat)) == null) {
             System.out.println("Gerente não encontrado!");
         } else {
             System.out.println("--------------");
@@ -533,8 +537,8 @@ public class View extends ViewTools{
             System.out.println("--------------");
             System.out.println("Digite o novo nome do Gerente:");
             String nome = ler.nextLine();
-            int deletado = ctr.deletarGerente(mat);
-            if ( deletado == 1 && ctr.cadastrarGerente(mat, nome, g.getSenha())) {
+            int deletado = gerenteCtrl.deletarGerente(mat);
+            if ( deletado == 1 && gerenteCtrl.cadastrarGerente(mat, nome, g.getSenha())) {
                 System.out.println("Gerente alterado com sucesso!");
             }
             else if(deletado == -1)
@@ -548,7 +552,7 @@ public class View extends ViewTools{
     }
 
     public void exibirTodosGerentes() {
-        System.out.print(ctr.recuperarTodosGerentesComoString());
+        System.out.print(gerenteCtrl.recuperarTodosGerentesComoString());
         System.out.println("----------------------");
     }
 
