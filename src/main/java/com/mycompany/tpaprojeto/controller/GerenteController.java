@@ -1,6 +1,7 @@
 package com.mycompany.tpaprojeto.controller;
 
 import com.mycompany.tpaprojeto.model.Gerente;
+import com.mycompany.tpaprojeto.model.Produto;
 import com.mycompany.tpaprojeto.persistence.GerentePersitence;
 
 public class GerenteController {
@@ -39,4 +40,13 @@ public class GerenteController {
         return gerentePer.deletarGerenteDoArquivo(mat);
     }
 
+    public int alterarGerente(int mat, String nome, String nova_senha) {
+        Gerente g;
+        if((g = buscarGerente(mat)) != null) {
+            g.setNome(nome);
+            g.setSenha(nova_senha);
+            return gerentePer.alterarGerenteNoArquivo(g);
+        }
+        return 0;
+    }
 }
