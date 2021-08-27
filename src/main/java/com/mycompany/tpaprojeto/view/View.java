@@ -35,13 +35,13 @@ public class View {
         }
         return num;
     }
-   
-     public int lerIntPositivo() {
+
+    public int lerIntPositivo() {
         int num;
         boolean flag = true;
         do {
             num = lerInt();
-            if (num<=0) {
+            if (num <= 0) {
                 System.out.println("Digite um número inteiro maior que 0:");
 
             } else {
@@ -50,7 +50,6 @@ public class View {
         } while (flag);
         return num;
     }
-    
 
     public int lerDesconto() {
         int desc;
@@ -207,8 +206,9 @@ public class View {
     public void menuCompra() {
         op = 0;
         Caixa caixa = associarCaixa();
-        if(caixa == null)
+        if (caixa == null) {
             return;
+        }
         Cliente cliente = associarCliente();
         Compra compra = ctr.iniciarCompra(cliente, caixa);
         boolean cancelada = false;
@@ -260,7 +260,7 @@ public class View {
         }
 
     }
-    
+
     public boolean autenticarGerente() {
         System.out.println("Gerente, digite sua matrícula:");
         int mat = lerInt();
@@ -333,39 +333,42 @@ public class View {
     }
 
     public void menuGerente() {
-        System.out.println("------------------Acesso do Gerente------------------");
-        System.out.println("1-Acessar menu Produto");
-        System.out.println("2-Acessar menu Caixa");
-        System.out.println("3-Acessar menu Gerente");
-        System.out.println("4-Acessar menu Cliente");
-        System.out.println("5-Acessar menu de Relátorios de Compras");
-        System.out.println("6-Acessar menu Desconto");
-        System.out.println("n-Digite outro número para sair do menu do Gerente");
-        op = ler.nextInt();
-        switch (op) {
-            case 1:
-                menuProduto();
-                break;
-            case 2:
-                menuCadastroCaixa();
-                break;
-            case 3:
-                menuCadastroGerente();
-                break;
-            case 4:
-                menuCadastroCliente();
-                break;
-            case 5:
-               menuRelatoriosCompras();
-                break;
-            case 6:
-                menuCadastroDesconto();
-                break;
+        boolean flag = true;
+        while (flag) {
+            System.out.println("------------------Acesso do Gerente------------------");
+            System.out.println("1-Acessar menu Produto");
+            System.out.println("2-Acessar menu Caixa");
+            System.out.println("3-Acessar menu Gerente");
+            System.out.println("4-Acessar menu Cliente");
+            System.out.println("5-Acessar menu de Relátorios de Compras");
+            System.out.println("6-Acessar menu Desconto");
+            System.out.println("n-Digite outro número para sair do menu do Gerente");
+            op = ler.nextInt();
+            switch (op) {
+                case 1:
+                    menuProduto();
+                    break;
+                case 2:
+                    menuCadastroCaixa();
+                    break;
+                case 3:
+                    menuCadastroGerente();
+                    break;
+                case 4:
+                    menuCadastroCliente();
+                    break;
+                case 5:
+                    menuRelatoriosCompras();
+                    break;
+                case 6:
+                    menuCadastroDesconto();
+                    break;
 
-            default:
-                break;
+                default:
+                    flag = false;
+                    break;
+            }
         }
-
     }
 
     public void menuProduto() {
@@ -404,7 +407,7 @@ public class View {
 
     public void cadastrarProduto() {
         System.out.println("Digite o código do produto a ser cadastrado:");
-        int cod = lerInt();
+        int cod = lerIntPositivo();
         if (ctr.buscarProduto(cod) == null) {
             System.out.println("Digite o nome do produto a ser cadastrado:");
             String nome = ler.nextLine();
@@ -422,7 +425,7 @@ public class View {
 
     public void alterarProduto() {
         System.out.println("Digite o código do produto a ser alterado:");
-        int cod = lerInt();
+        int cod = lerIntPositivo();
         Produto p;
         if ((p = ctr.buscarProduto(cod)) == null) {
             System.out.println("Produto não encontrado!");
@@ -445,7 +448,7 @@ public class View {
 
     public void deletarProduto() {
         System.out.println("Digite o código do produto a ser deletado:");
-        int cod = lerInt();
+        int cod = lerIntPositivo();
         if (ctr.deletarProduto(cod)) {
             System.out.println("Produto deletado com sucesso!");
         } else {
@@ -479,7 +482,7 @@ public class View {
 
     public Caixa associarCaixa() {
         System.out.println("Digite a matrícula do caixa:");
-        int mat = lerInt();
+        int mat = lerIntPositivo();
         Caixa c = ctr.buscarCaixa(mat);
         if (c == null) {
             System.out.println("Não foi encontrado um(a) Caixa com essa matrícula!");
@@ -521,7 +524,7 @@ public class View {
 
     public void cadastrarCaixa() {
         System.out.println("Digite a matrícula do Caixa a ser cadastrado:");
-        int mat = lerInt();
+        int mat = lerIntPositivo();
         if (ctr.buscarCaixa(mat) == null) {
             System.out.println("Digite o nome do Caixa a ser cadastrado:");
             String nome = ler.nextLine();
@@ -537,7 +540,7 @@ public class View {
 
     public void deletarCaixa() {
         System.out.println("Digite o matrícula do Caixa cujo cadastro será deletado:");
-        int mat = lerInt();
+        int mat = lerIntPositivo();
         if (ctr.deletarCaixa(mat)) {
             System.out.println("Cadastro de Caixa deletado com sucesso!");
         } else {
@@ -582,7 +585,7 @@ public class View {
 
     public void cadastrarGerente() {
         System.out.println("Digite a matrícula do Gerente a ser cadastrado:");
-        int mat = lerInt();
+        int mat = lerIntPositivo();
         String senha1 = "senha1", senha2 = "senha2";
         if (ctr.buscarGerente(mat) == null) {
             System.out.println("Digite o nome do Gerente a ser cadastrado:");
@@ -608,12 +611,15 @@ public class View {
 
     public void deletarGerente() {
         System.out.println("Digite o matrícula do Gerente cujo cadastro será deletado:");
-        int mat = lerInt();
-        if (ctr.deletarGerente(mat)) {
+        int mat = lerIntPositivo();
+        int conseguiuDeletar = ctr.deletarGerente(mat);
+        if (conseguiuDeletar == 1) {
             System.out.println("Cadastro de Gerente deletado com sucesso!");
-        } else {
+        } else if (conseguiuDeletar == 0) {
             System.out.println("Não foi possível deletar o cadastro desse Gerente,\n"
                     + " verifique se a matrícula foi digitada corretamente.");
+        } else {
+            System.out.println("Não é possível deletar o cadastro do Gerente Padrão!");
         }
     }
 
@@ -772,13 +778,14 @@ public class View {
         }
 
     }
-    public void deletarComprasAntigas()
-    {
+
+    public void deletarComprasAntigas() {
         System.out.println("Digite quantos registros de compras antigos você deseja excluir:");
         int n = lerIntPositivo();
         int deletados = compraCtrl.deletarComprasMaisAntigas(n);
         System.out.println(String.format("Foram deletados %d registros de compras", deletados));
     }
+
     public void exibirTodasCompras() {
         System.out.print(compraCtrl.recuperarTodasComprasComoString());
         System.out.println("----------------------");

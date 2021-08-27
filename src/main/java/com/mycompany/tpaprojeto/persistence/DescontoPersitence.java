@@ -56,12 +56,15 @@ public class  DescontoPersitence {
     }
 
     public boolean deletarDescontoDoArquivo(int descontoPorcentagem) {
-        if (descontos.keySet().contains(descontoPorcentagem)) {
-            descontos.remove(descontoPorcentagem);
-        } else {
-            return false;
+          if (descontos.keySet().contains(descontoPorcentagem))
+        {
+            Desconto d = descontos.remove(descontoPorcentagem);
+            if(this.salvarDescontosNoArquivo())
+                return true;
+            else//Se der algum erro ao salvar no arquivo, devolve o desconto removido ao hashmap
+                descontos.put(d.getDesconto(),d);
         }
-        return this.salvarDescontosNoArquivo();
+            return false;
 
     }
 

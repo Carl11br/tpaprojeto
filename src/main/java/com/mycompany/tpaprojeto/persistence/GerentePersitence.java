@@ -11,11 +11,12 @@ import java.util.HashMap;
 
 public class GerentePersitence {
     private static HashMap<Integer, Gerente> gerentes;
+    private static  Gerente gerentePadrao = new Gerente(1,"admin","admin");
     public GerentePersitence() {
         if(this.lerGerentesDoArquivo() == false)
             this.gerentes = new HashMap<>();
+            this.gerentes.put(gerentePadrao.getMatricula(), gerentePadrao);
     }
-
     public boolean salvarGerentesNoArquivo() {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("gerentes.bin"));
@@ -52,13 +53,20 @@ public class GerentePersitence {
             return this.salvarGerentesNoArquivo();
         }
     }
-    public boolean deletarGerenteDoArquivo(int mat)
+    public int deletarGerenteDoArquivo(int mat)
     {
+        if(mat == gerentePadrao.getMatricula())
+            return -1;
         if (gerentes.keySet().contains(mat))
-            gerentes.remove(mat);
-        else
-            return false;
-        return this.salvarGerentesNoArquivo();
+        {
+            Gerente g = gerentes.remove(mat);
+            if(this.salvarGerentesNoArquivo())
+                return 1;
+            else//Se der algum erro ao salvar no arquivo, devolve o gerente removido ao hashmap
+                gerentes.put(g.getMatricula(),g);
+        }
+            return 0;
+        
         
     }
     public Gerente buscarGerenteNoArquivo(int mat)

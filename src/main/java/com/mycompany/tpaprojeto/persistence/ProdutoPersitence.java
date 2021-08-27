@@ -56,10 +56,14 @@ public class ProdutoPersitence {
     public boolean deletarProdutoDoArquivo(int cod)
     {
         if (produtos.keySet().contains(cod))
-            produtos.remove(cod);
-        else
+        {
+            Produto p = produtos.remove(cod);
+            if(this.salvarProdutosNoArquivo())
+                return true;
+            else//Se der algum erro ao salvar no arquivo, devolve o produto removido ao hashmap
+                produtos.put(p.getCodigo(),p);
+        }
             return false;
-        return this.salvarProdutosNoArquivo();
         
     }
     public Produto buscarProdutoNoArquivo(int cod)

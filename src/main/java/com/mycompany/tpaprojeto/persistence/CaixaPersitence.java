@@ -56,11 +56,15 @@ public class CaixaPersitence {
     }
     public boolean deletarCaixaDoArquivo(int mat)
     {
-        if (caixas.keySet().contains(mat))
-            caixas.remove(mat);
-        else
+         if (caixas.keySet().contains(mat))
+        {
+            Caixa c = caixas.remove(mat);
+            if(this.salvarCaixasNoArquivo())
+                return true;
+            else//Se der algum erro ao salvar no arquivo, devolve o caixa removido ao hashmap
+                caixas.put(c.getMatricula(),c);
+        }
             return false;
-        return this.salvarCaixasNoArquivo();
         
     }
     public Caixa buscarCaixaNoArquivo(int mat)

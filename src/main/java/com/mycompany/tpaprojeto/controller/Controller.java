@@ -166,7 +166,7 @@ public class Controller {
         }
         return s;
     }
-    public boolean deletarGerente(int mat) {
+    public int deletarGerente(int mat) {
         return gerentePer.deletarGerenteDoArquivo(mat);
     }
     public boolean cadastrarCliente(String cpf, String nome) {

@@ -63,17 +63,27 @@ public class CompraPersitence {
     }
 
     public boolean deletarCompraDoArquivo(int id) {
+        Compra c;
+        boolean eraUltimoId = false;
         if (compras.keySet().contains(id)) {
             if (id == ultimoId) {
                 atualizarUltimoId();
-                compras.remove(id);
+                eraUltimoId = true;
+                c = compras.remove(id);
             } else {
-                compras.remove(id);
+                c = compras.remove(id);
             }
-        } else {
-            return false;
+            if (this.salvarComprasNoArquivo()) {
+                return true;
+            } else { // Se não foi possível salvar no arquivo, devolve a compra removida do hashmap e volta o valor do ultimoId, caso ele tenha sido atualizado
+                compras.put(id, c);
+                if (eraUltimoId) {
+                    ultimoId = id;
+                }
+            }
         }
-        return this.salvarComprasNoArquivo();
+
+        return false;
 
     }
 
@@ -82,7 +92,7 @@ public class CompraPersitence {
         if (n >= compras.size()) {
             count = compras.size();
             compras.clear();
-            
+
         } else {
             for (Iterator it = compras.keySet().iterator(); it.hasNext();) {
                 if (count == n) {

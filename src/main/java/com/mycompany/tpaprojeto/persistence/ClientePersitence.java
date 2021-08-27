@@ -1,6 +1,6 @@
 package com.mycompany.tpaprojeto.persistence;
 
-import com.mycompany.tpaprojeto.model.Caixa;
+import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Cliente;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -54,11 +54,15 @@ public class ClientePersitence {
     }
     public boolean deletarClienteDoArquivo(String cpf)
     {
-        if (clientes.keySet().contains(cpf))
-            clientes.remove(cpf);
-        else
+           if (clientes.keySet().contains(cpf))
+        {
+            Cliente c = clientes.remove(cpf);
+            if(this.salvarClientesNoArquivo())
+                return true;
+            else//Se der algum erro ao salvar no arquivo, devolve o caixa removido ao hashmap
+                clientes.put(c.getCpf(),c);
+        }
             return false;
-        return this.salvarClientesNoArquivo();
         
     }
     public Cliente buscarClienteNoArquivo(String cpf)
