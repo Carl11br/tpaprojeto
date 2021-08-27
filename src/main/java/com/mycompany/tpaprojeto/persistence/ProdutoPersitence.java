@@ -74,6 +74,16 @@ public class ProdutoPersitence {
             return null;
     }
 
+    public boolean alterarProdutoNoArquivo(Produto p){
+        if (!(produtos.keySet().contains(p.getCodigo())))//código não cadastrado
+        {
+            return false;
+        } else {
+            produtos.put(p.getCodigo(), p);
+            return this.salvarProdutosNoArquivo();
+        }
+    }
+
     public HashMap<Integer, Produto> getProdutos() {
         return produtos;
     }

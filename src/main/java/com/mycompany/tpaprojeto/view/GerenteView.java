@@ -91,20 +91,11 @@ public class GerenteView extends ViewTools {
     public void cadastrarGerente() {
         System.out.println("Digite a matrícula do Gerente a ser cadastrado:");
         int mat = lerIntPositivo();
-        String senha1 = "senha1", senha2 = "senha2";
         if (gerenteCtrl.buscarGerente(mat) == null) {
             System.out.println("Digite o nome do Gerente a ser cadastrado:");
             String nome = ler.nextLine();
-            while (!senha1.equals(senha2)) {
-                System.out.println("Digite a senha do Gerente a ser cadastrado:");
-                senha1 = lerSenha();
-                System.out.println("Digite novamente a senha do Gerente a ser cadastrado:");
-                senha2 = ler.nextLine().replaceAll("[\\n ]", "");
-                if (!senha1.equals(senha2)) {
-                    System.out.println("As senhas digitadas não coencidem!");
-                }
-            }
-            if (gerenteCtrl.cadastrarGerente(mat, nome, senha2)) {
+            String senha = cadastrarSenha();
+            if (gerenteCtrl.cadastrarGerente(mat, nome, senha)) {
                 System.out.println("Gerente cadastrado com sucesso!");
             } else {
                 System.out.println("Não foi possível cadastrar esse Gerente!");
@@ -144,13 +135,16 @@ public class GerenteView extends ViewTools {
             System.out.println("--------------");
             System.out.println("Digite o novo nome do Gerente:");
             String nome = ler.nextLine();
-            int deletado = gerenteCtrl.deletarGerente(mat);
-            if (deletado == 1 && gerenteCtrl.cadastrarGerente(mat, nome, g.getSenha())) {
-                System.out.println("Gerente alterado com sucesso!");
-            } else if (deletado == -1) {
-                System.out.println("Não é possível alterar o Gerente Padrão!");
-            } else {
-                System.out.println("Não foi possível alterar esse Gerente!");
+            String nova_senha = cadastrarSenha();
+            int altera;
+            if (autenticarGerente()) {
+                if ((altera = gerenteCtrl.alterarGerente(mat, nome, nova_senha)) == 1) {
+                    System.out.println("Gerente alterado com sucesso!");
+                } else if (altera == -1) {
+                    System.out.println("Não é possível alterar o Gerente Padrão!");
+                } else {
+                    System.out.println("Não foi possível alterar esse Gerente!");
+                }
             }
         }
     }
@@ -173,6 +167,20 @@ public class GerenteView extends ViewTools {
         }
 
         return b;
+    }
+
+    public String cadastrarSenha(){
+        String senha1 = "senha1", senha2 = "senha2";
+        while (!senha1.equals(senha2)) {
+            System.out.println("Digite a senha a ser cadastrada:");
+            senha1 = lerSenha();
+            System.out.println("Digite novamente a senha ser cadastrada:");
+            senha2 = ler.nextLine().replaceAll("[\\n ]", "");
+            if (!senha1.equals(senha2)) {
+                System.out.println("As senhas digitadas não coencidem!");
+            }
+        }
+        return senha2;
     }
 
 }

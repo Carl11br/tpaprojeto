@@ -80,5 +80,17 @@ public class GerentePersitence {
     public HashMap<Integer, Gerente> getGerentes() {
         return gerentes;
     }
-    
+
+    public int alterarGerenteNoArquivo(Gerente g) {
+        if(g.getMatricula() == gerentePadrao.getMatricula())
+            return -1;
+        if (gerentes.keySet().contains(g.getMatricula()))//matrícula já cadastrada
+        {
+            gerentes.put(g.getMatricula(), g);
+            if(this.salvarGerentesNoArquivo()){
+                return 1;
+            }
+        }
+        return  0;
+    }
 }

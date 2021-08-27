@@ -63,14 +63,14 @@ public class ProdutoView  extends ViewTools{
             System.out.println("Produto não encontrado!");
         } else {
             System.out.println("--------------");
-            System.out.print(p.toString());
+            System.out.print(p);
             System.out.println("--------------");
             System.out.println("Digite o novo nome do produto:");
             String nome = ler.nextLine();
             System.out.println("Digite o novo preço do produto:");
             float preco = lerFloat();
 
-            if (produtoCtrl.deletarProduto(cod) && produtoCtrl.cadastrarProduto(cod, nome, preco)) {
+            if (produtoCtrl.alterarProduto(cod,nome,preco)) {
                 System.out.println("Produto alterado com sucesso!");
             } else {
                 System.out.println("Não foi possível alterar esse produto!");

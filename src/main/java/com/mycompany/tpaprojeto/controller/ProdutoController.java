@@ -32,5 +32,16 @@ public class ProdutoController {
         return prodPer.buscarProdutoNoArquivo(cod);
     }
 
+    public boolean alterarProduto(int cod, String nome, float preco){
+        Produto p;
+        if((p = buscarProduto(cod)) != null){
+            p.setNome(nome);
+            p.setPreco(preco);
+            if (prodPer.alterarProdutoNoArquivo(p)){
+                return true;
+            }
+        }
+        return false;
+    }
    
 }

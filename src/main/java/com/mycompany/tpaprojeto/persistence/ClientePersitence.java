@@ -75,5 +75,15 @@ public class ClientePersitence {
 
     public HashMap<String, Cliente> getClientes() {
         return clientes;
-    } 
+    }
+
+    public boolean alterarClienteNoArquivo(Cliente c) {
+        if (!(clientes.keySet().contains(c.getCpf())))//cpf não cadastrado
+        {
+            return false;
+        } else {
+            clientes.put(c.getCpf(), c);
+            return this.salvarClientesNoArquivo();
+        }
+    }
 }

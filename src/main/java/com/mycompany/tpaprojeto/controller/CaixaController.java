@@ -1,6 +1,7 @@
 package com.mycompany.tpaprojeto.controller;
 
 import com.mycompany.tpaprojeto.model.Caixa;
+import com.mycompany.tpaprojeto.model.Produto;
 import com.mycompany.tpaprojeto.persistence.CaixaPersitence;
 
 public class CaixaController {
@@ -26,5 +27,16 @@ public class CaixaController {
 
     public boolean deletarCaixa(int mat) {
         return CaixaController.caixaPer.deletarCaixaDoArquivo(mat);
+    }
+
+    public boolean alterarCaixa(int mat, String nome) {
+        Caixa c;
+        if((c = buscarCaixa(mat)) != null){
+            c.setNome(nome);
+            if (caixaPer.alterarCaixaNoArquivo(c)){
+                return true;
+            }
+        }
+        return false;
     }
 }
