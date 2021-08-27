@@ -1,7 +1,9 @@
 package com.mycompany.tpaprojeto.view;
 
+import com.mycompany.tpaprojeto.controller.CompraController;
 import com.mycompany.tpaprojeto.controller.Controller;
 import com.mycompany.tpaprojeto.controller.DescontoController;
+import com.mycompany.tpaprojeto.model.Caixa;
 import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Compra;
 import com.mycompany.tpaprojeto.model.Gerente;
@@ -18,6 +20,7 @@ public class View {
     int op = 0;
     Controller ctr = new Controller();
     DescontoController descontoCtrl = new DescontoController();
+    CompraController compraCtrl = new CompraController();
 
     public int lerInt() {
         int num = 0;
@@ -32,20 +35,35 @@ public class View {
         }
         return num;
     }
+   
+     public int lerIntPositivo() {
+        int num;
+        boolean flag = true;
+        do {
+            num = lerInt();
+            if (num<=0) {
+                System.out.println("Digite um número inteiro maior que 0:");
+
+            } else {
+                flag = false;
+            }
+        } while (flag);
+        return num;
+    }
+    
+
     public int lerDesconto() {
         int desc;
         boolean flag = true;
-        do
-        {
+        do {
             desc = lerInt();
-            if((desc <1 || desc>100))
-            {
-                System.out.println("Digite um número entre 1 e 100:"); 
-                
-            }
-            else
+            if ((desc < 1 || desc > 100)) {
+                System.out.println("Digite um número entre 1 e 100:");
+
+            } else {
                 flag = false;
-        }while(flag);
+            }
+        } while (flag);
         return desc;
     }
 
@@ -188,9 +206,11 @@ public class View {
 
     public void menuCompra() {
         op = 0;
+        Caixa caixa = associarCaixa();
+        if(caixa == null)
+            return;
         Cliente cliente = associarCliente();
-
-        Compra compra = ctr.iniciarCompra(cliente);
+        Compra compra = ctr.iniciarCompra(cliente, caixa);
         boolean cancelada = false;
         while (op != 3 && cancelada == false) {
             this.exibirTodosItens(compra);
@@ -233,12 +253,14 @@ public class View {
         }
         return false;
     }
-    public void aplicarDesconto(Compra c)
-    {
-        if(ctr.aplicaDescontoCompra(c))
-            System.out.println("Parabéns! Você recebeu um desconto de "+ c.getDescontoRecebido() + "%!");
-        
+
+    public void aplicarDesconto(Compra c) {
+        if (ctr.aplicaDescontoCompra(c)) {
+            System.out.println("Parabéns! Você recebeu um desconto de " + c.getDescontoRecebido() + "%!");
+        }
+
     }
+    
     public boolean autenticarGerente() {
         System.out.println("Gerente, digite sua matrícula:");
         int mat = lerInt();
@@ -255,16 +277,16 @@ public class View {
     }
 
     private void concluirCompra(Compra compra, Cliente cliente) {
-       
+
         if (ctr.finalizarCompra(compra, cliente)) {
             System.out.println("Compra concluída com sucesso!");
-            
+
         } else {
             System.out.println("Não foi possível concluir a compra!");
-           
+
         }
-         this.aperteEnterContinuar();
-                 
+        this.aperteEnterContinuar();
+
     }
 
     public void adicionarItem(Compra compra) {
@@ -316,8 +338,8 @@ public class View {
         System.out.println("2-Acessar menu Caixa");
         System.out.println("3-Acessar menu Gerente");
         System.out.println("4-Acessar menu Cliente");
-        System.out.println("5-Acessar menu Compras");
-         System.out.println("6-Acessar menu Desconto");
+        System.out.println("5-Acessar menu de Relátorios de Compras");
+        System.out.println("6-Acessar menu Desconto");
         System.out.println("n-Digite outro número para sair do menu do Gerente");
         op = ler.nextInt();
         switch (op) {
@@ -334,12 +356,11 @@ public class View {
                 menuCadastroCliente();
                 break;
             case 5:
-                System.out.println("Temos que fazer ainda!");
+               menuRelatoriosCompras();
                 break;
-             case 6:
+            case 6:
                 menuCadastroDesconto();
                 break;
-
 
             default:
                 break;
@@ -437,7 +458,6 @@ public class View {
         System.out.println("----------------------");
     }
 
-    //Criar função p associar cliente a compra
     public Cliente associarCliente() {
         System.out.println("Digite o cpf do cliente:");
         String cpf = lerCpfValido();
@@ -455,6 +475,19 @@ public class View {
         System.out.println("\f");
         System.out.println("Seja bem-vindo(a), " + c.getNome() + "!");
         return c;
+    }
+
+    public Caixa associarCaixa() {
+        System.out.println("Digite a matrícula do caixa:");
+        int mat = lerInt();
+        Caixa c = ctr.buscarCaixa(mat);
+        if (c == null) {
+            System.out.println("Não foi encontrado um(a) Caixa com essa matrícula!");
+        } else {
+            System.out.println("Seja bem-vindo(a), operador(a) de caixa " + c.getNome() + "!");
+        }
+        return c;
+
     }
 
     public void menuCadastroCaixa() {
@@ -649,7 +682,7 @@ public class View {
         System.out.print(ctr.recuperarTodosClientesComoString());
         System.out.println("----------------------");
     }
-    
+
     public void menuCadastroDesconto() {
         boolean flag = true;
         System.out.println("------------------Menu Cadastro de Descontos------------------");
@@ -678,9 +711,10 @@ public class View {
             }
         }
     }
-     public void cadastrarDesconto() {
+
+    public void cadastrarDesconto() {
         System.out.println("Digite um número de 1 a 100, para o desconto que você deseja dar:");
-        int desc = lerDesconto(); 
+        int desc = lerDesconto();
         if (descontoCtrl.buscarDesconto(desc) == null) {
             System.out.println("Digite o valor mínimo de total de compras acumuladas em reais para o desconto ser aplicado:");
             float valorMin = lerFloat();
@@ -710,6 +744,44 @@ public class View {
         System.out.println("----------------------");
     }
 
-    
-    
+    public void menuRelatoriosCompras() {
+        boolean flag = true;
+        System.out.println("------------------Menu Relatórios de Compras------------------");
+        while (flag) {
+            System.out.println("1-Exibir todas as compras");
+            System.out.println("2-Excluir n compras mais antigas");
+            System.out.println("n-Digite outro número para sair o menu de Clientes");
+            op = lerInt();
+            switch (op) {
+                case 1:
+                    exibirTodasCompras();
+                    this.aperteEnterContinuar();
+                    break;
+                case 2:
+                    deletarComprasAntigas();
+                    this.aperteEnterContinuar();
+                    break;
+                case 3:
+                    exibirTodosDescontos();
+                    this.aperteEnterContinuar();
+                    break;
+                default:
+                    flag = false;
+                    break;
+            }
+        }
+
+    }
+    public void deletarComprasAntigas()
+    {
+        System.out.println("Digite quantos registros de compras antigos você deseja excluir:");
+        int n = lerIntPositivo();
+        int deletados = compraCtrl.deletarComprasMaisAntigas(n);
+        System.out.println(String.format("Foram deletados %d registros de compras", deletados));
+    }
+    public void exibirTodasCompras() {
+        System.out.print(compraCtrl.recuperarTodasComprasComoString());
+        System.out.println("----------------------");
+    }
+
 }

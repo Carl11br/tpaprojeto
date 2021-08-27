@@ -81,8 +81,6 @@ public class Controller {
     }
 
     public void adicionarItemACompra(Item i, Compra compra) {
-        //checar se já tem um item com esse mesmo produto, 
-        //para aumentar a quantidade, ao invés de add outro item do msm produto
         Item itemBuscado = buscarItemNaCompra(i.getProduto().getCodigo(),compra);
         if(itemBuscado==null)
             compra.add_Item(i);
@@ -116,10 +114,9 @@ public class Controller {
         }
         return s;
     }
-    //public Item buscarItemMesmoProduto(int cod)
 
-    public Compra iniciarCompra(Cliente cliente) {
-        Compra c = new Compra(cliente);
+    public Compra iniciarCompra(Cliente cliente, Caixa caixa) {
+        Compra c = new Compra(cliente,caixa);
         return c;
     }
 
