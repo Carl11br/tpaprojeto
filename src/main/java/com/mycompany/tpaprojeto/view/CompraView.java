@@ -205,6 +205,8 @@ public class CompraView extends ViewTools {
     public Caixa associarCaixa() {
         System.out.println("Digite a matrícula do caixa ou 0 para voltar ao menu anterior:");
         int mat = lerIntPositivoEZero();
+        if(mat == 0)
+            return null;
         Caixa c = caixaCtrl.buscarCaixa(mat);
         if (c == null) {
             System.out.println("Não foi encontrado um(a) Caixa com essa matrícula!");
