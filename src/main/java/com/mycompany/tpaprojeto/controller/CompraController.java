@@ -13,6 +13,7 @@ public class CompraController {
    private static final CompraPersitence compraPer = new CompraPersitence();
    private static final ClientePersitence clientePer = new ClientePersitence();
    private static final ItemController itemCrtl = new ItemController();
+   private static final DescontoController descontoCtrl = new DescontoController();
     public String recuperarTodasComprasComoString() {
         String s = "";
         for (HashMap.Entry<Integer,Compra> ele : compraPer.getCompras().entrySet()) {
@@ -74,4 +75,17 @@ public class CompraController {
      {
          return itemCrtl.recuperarTodosItensComoString(compra.getItens());
      }
+     public boolean aplicaDescontoCompra(Compra c)
+    {
+       int desconto =  descontoCtrl.decidirDescontoCliente(c.getCliente());
+       if(desconto>0)
+       {
+       c.setDescontoRecebido(desconto);
+       float descontoEmReais = c.getTotal() * desconto/100;
+       c.setTotal(c.getTotal()-descontoEmReais);
+       return true;
+       }
+       return false;
+        
+    }
 }

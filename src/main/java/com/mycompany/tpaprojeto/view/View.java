@@ -1,31 +1,29 @@
 package com.mycompany.tpaprojeto.view;
 
+import com.mycompany.tpaprojeto.controller.CaixaController;
+import com.mycompany.tpaprojeto.controller.ClienteController;
 import com.mycompany.tpaprojeto.controller.CompraController;
-import com.mycompany.tpaprojeto.controller.Controller;
 import com.mycompany.tpaprojeto.controller.DescontoController;
 import com.mycompany.tpaprojeto.controller.GerenteController;
 import com.mycompany.tpaprojeto.controller.ItemController;
+import com.mycompany.tpaprojeto.controller.ProdutoController;
 import com.mycompany.tpaprojeto.model.Caixa;
 import com.mycompany.tpaprojeto.model.Cliente;
 import com.mycompany.tpaprojeto.model.Compra;
 import com.mycompany.tpaprojeto.model.Gerente;
 import com.mycompany.tpaprojeto.model.Item;
 import com.mycompany.tpaprojeto.model.Produto;
-import java.util.Scanner;
-import java.util.logging.Logger;
-import java.io.Console;
-import java.util.InputMismatchException;
 
-public class View extends ViewTools{
+public class View extends ViewTools {
 
-    
-    Controller ctr = new Controller();
-    DescontoController descontoCtrl = new DescontoController();
-    CompraController compraCtrl = new CompraController();
-    ItemController itemCtrl = new ItemController();
+    private static final DescontoController descontoCtrl = new DescontoController();
+    private static final CompraController compraCtrl = new CompraController();
+    private static final ItemController itemCtrl = new ItemController();
+    private static final CaixaController caixaCtrl = new CaixaController();
     private static final GerenteController gerenteCtrl = new GerenteController();
+    private static final ClienteController clienteCtrl = new ClienteController();
+    private static final ProdutoController produtoCtrl = new ProdutoController();
 
- 
     public void menuPrincipal() {
         boolean encerrar = false;
         while (encerrar == false) {
@@ -80,35 +78,28 @@ public class View extends ViewTools{
                     }
                     break;
                 case 3:
-                    if(compraCtrl.verificarCompraVazia(compra))
-                    {
-                       System.out.println("Não é possível concluir uma compra que não contenha itens!");
-                       this.aperteEnterContinuar();
-                       
+                    if (compraCtrl.verificarCompraVazia(compra)) {
+                        System.out.println("Não é possível concluir uma compra que não contenha itens!");
+                        this.aperteEnterContinuar();
+
+                    } else {
+                        this.aplicarDesconto(compra);
+                        System.out.println("TOTAL: R$ " + compra.getTotalComoString());
+                        this.concluirCompra(compra, cliente);
+                        flag = false;
                     }
-                    else
-                    {
-                    this.aplicarDesconto(compra);
-                    System.out.println("TOTAL: R$ " + compra.getTotalComoString());
-                    this.concluirCompra(compra, cliente);
-                    flag = false;
-                    }
-                    
 
                     break;
                 case 4:
                     flag = !cancelarCompra();
                     break;
                 default:
-                    if(compraCtrl.verificarCompraVazia(compra))
-                    {
+                    if (compraCtrl.verificarCompraVazia(compra)) {
                         flag = false;
-                    }
-                    else
-                    {
-                      System.out.println("Não é possível voltar quando existem itens na compra!\n"
-                              + "Conclua ou cancele a compra!");
-                     this.aperteEnterContinuar();
+                    } else {
+                        System.out.println("Não é possível voltar quando existem itens na compra!\n"
+                                + "Conclua ou cancele a compra!");
+                        this.aperteEnterContinuar();
                     }
                     break;
             }
@@ -126,7 +117,7 @@ public class View extends ViewTools{
     }
 
     public void aplicarDesconto(Compra c) {
-        if (ctr.aplicaDescontoCompra(c)) {
+        if (compraCtrl.aplicaDescontoCompra(c)) {
             System.out.println("Parabéns! Você recebeu um desconto de " + c.getDescontoRecebido() + "%!");
         }
 
@@ -148,7 +139,7 @@ public class View extends ViewTools{
     }
 
     private void concluirCompra(Compra compra, Cliente cliente) {
-        
+
         if (compraCtrl.finalizarCompra(compra, cliente)) {
             System.out.println("Compra concluída com sucesso!");
 
@@ -163,7 +154,7 @@ public class View extends ViewTools{
     public void adicionarItem(Compra compra) {
         System.out.println("Digite o código do produto:");
         int cod = lerInt();
-        Produto p = ctr.buscarProduto(cod);
+        Produto p = produtoCtrl.buscarProduto(cod);
         if (p == null) {
             System.out.println("Não existe um produto cadastrado com esse código!");
         } else {
@@ -182,7 +173,7 @@ public class View extends ViewTools{
         if (compra.getItens().size() != 0) {
             System.out.println("Digite o código do produto que deseja remover da compra:");
             int cod = ler.nextInt();
-            Produto p = ctr.buscarProduto(cod);
+            Produto p = produtoCtrl.buscarProduto(cod);
             if (p == null) {
                 System.out.println("Não existe um produto cadastrado com esse código!");
             } else {
@@ -279,12 +270,12 @@ public class View extends ViewTools{
     public void cadastrarProduto() {
         System.out.println("Digite o código do produto a ser cadastrado:");
         int cod = lerIntPositivo();
-        if (ctr.buscarProduto(cod) == null) {
+        if (produtoCtrl.buscarProduto(cod) == null) {
             System.out.println("Digite o nome do produto a ser cadastrado:");
             String nome = ler.nextLine();
             System.out.println("Digite o preço do produto a ser cadastrado:");
             float preco = lerFloat();
-            if (ctr.cadastrarProduto(cod, nome, preco)) {
+            if (produtoCtrl.cadastrarProduto(cod, nome, preco)) {
                 System.out.println("Produto cadastrado com sucesso!");
             } else {
                 System.out.println("Não foi possível cadastrar esse produto!");
@@ -298,7 +289,7 @@ public class View extends ViewTools{
         System.out.println("Digite o código do produto a ser alterado:");
         int cod = lerIntPositivo();
         Produto p;
-        if ((p = ctr.buscarProduto(cod)) == null) {
+        if ((p = produtoCtrl.buscarProduto(cod)) == null) {
             System.out.println("Produto não encontrado!");
         } else {
             System.out.println("--------------");
@@ -309,7 +300,7 @@ public class View extends ViewTools{
             System.out.println("Digite o novo preço do produto:");
             float preco = lerFloat();
 
-            if (ctr.deletarProduto(cod) && ctr.cadastrarProduto(cod, nome, preco)) {
+            if (produtoCtrl.deletarProduto(cod) && produtoCtrl.cadastrarProduto(cod, nome, preco)) {
                 System.out.println("Produto alterado com sucesso!");
             } else {
                 System.out.println("Não foi possível alterar esse produto!");
@@ -320,7 +311,7 @@ public class View extends ViewTools{
     public void deletarProduto() {
         System.out.println("Digite o código do produto a ser deletado:");
         int cod = lerIntPositivo();
-        if (ctr.deletarProduto(cod)) {
+        if (produtoCtrl.deletarProduto(cod)) {
             System.out.println("Produto deletado com sucesso!");
         } else {
             System.out.println("Não foi possível deletar esse produto!");
@@ -328,7 +319,7 @@ public class View extends ViewTools{
     }
 
     public void exibirTodosProdutos() {
-        System.out.print(ctr.recuperarTodosProdutosComoString());
+        System.out.print(produtoCtrl.recuperarTodosProdutosComoString());
         System.out.println("----------------------");
     }
 
@@ -336,16 +327,16 @@ public class View extends ViewTools{
         System.out.println("Digite o cpf do cliente:");
         String cpf = lerCpfValido();
         String nome;
-        Cliente c = ctr.buscarCliente(cpf);
+        Cliente c = clienteCtrl.buscarCliente(cpf);
         if (c == null) {
             System.out.println("Digite o nome do cliente:");
             nome = ler.nextLine();
-            if (ctr.cadastrarCliente(cpf, nome, 0.0f)) {
+            if (clienteCtrl.cadastrarCliente(cpf, nome, 0.0f)) {
                 System.out.println("Cliente cadastrado com sucesso!");
             }
 
         }
-        c = ctr.buscarCliente(cpf);
+        c = clienteCtrl.buscarCliente(cpf);
         System.out.println("\f");
         System.out.println("Seja bem-vindo(a), " + c.getNome() + "!");
         return c;
@@ -354,7 +345,7 @@ public class View extends ViewTools{
     public Caixa associarCaixa() {
         System.out.println("Digite a matrícula do caixa:");
         int mat = lerIntPositivo();
-        Caixa c = ctr.buscarCaixa(mat);
+        Caixa c = caixaCtrl.buscarCaixa(mat);
         if (c == null) {
             System.out.println("Não foi encontrado um(a) Caixa com essa matrícula!");
         } else {
@@ -401,10 +392,10 @@ public class View extends ViewTools{
     public void cadastrarCaixa() {
         System.out.println("Digite a matrícula do Caixa a ser cadastrado:");
         int mat = lerIntPositivo();
-        if (ctr.buscarCaixa(mat) == null) {
+        if (caixaCtrl.buscarCaixa(mat) == null) {
             System.out.println("Digite o nome do Caixa a ser cadastrado:");
             String nome = ler.nextLine();
-            if (ctr.cadastrarCaixa(mat, nome)) {
+            if (caixaCtrl.cadastrarCaixa(mat, nome)) {
                 System.out.println("Caixa cadastrado com sucesso!");
             } else {
                 System.out.println("Não foi possível cadastrar esse Caixa!");
@@ -417,7 +408,7 @@ public class View extends ViewTools{
     public void deletarCaixa() {
         System.out.println("Digite o matrícula do Caixa cujo cadastro será deletado:");
         int mat = lerIntPositivo();
-        if (ctr.deletarCaixa(mat)) {
+        if (caixaCtrl.deletarCaixa(mat)) {
             System.out.println("Cadastro de Caixa deletado com sucesso!");
         } else {
             System.out.println("Não foi possível deletar o cadastro desse Caixa,\n"
@@ -429,7 +420,7 @@ public class View extends ViewTools{
         System.out.println("Digite a matrícula do Caixa a ser alterado:");
         int mat = lerIntPositivo();
         Caixa c;
-        if ((c = ctr.buscarCaixa(mat)) == null) {
+        if ((c = caixaCtrl.buscarCaixa(mat)) == null) {
             System.out.println("Caixa não encontrado!");
         } else {
             System.out.println("--------------");
@@ -438,7 +429,7 @@ public class View extends ViewTools{
             System.out.println("Digite o novo nome do Caixa:");
             String nome = ler.nextLine();
 
-            if (ctr.deletarCaixa(mat) && ctr.cadastrarCaixa(mat, nome)) {
+            if (caixaCtrl.deletarCaixa(mat) && caixaCtrl.cadastrarCaixa(mat, nome)) {
                 System.out.println("Caixa alterado com sucesso!");
             } else {
                 System.out.println("Não foi possível alterar esse Caixa!");
@@ -447,7 +438,7 @@ public class View extends ViewTools{
     }
 
     public void exibirTodosCaixas() {
-        System.out.print(ctr.recuperarTodosCaixasComoString());
+        System.out.print(caixaCtrl.recuperarTodosCaixasComoString());
         System.out.println("----------------------");
     }
 
@@ -538,14 +529,11 @@ public class View extends ViewTools{
             System.out.println("Digite o novo nome do Gerente:");
             String nome = ler.nextLine();
             int deletado = gerenteCtrl.deletarGerente(mat);
-            if ( deletado == 1 && gerenteCtrl.cadastrarGerente(mat, nome, g.getSenha())) {
+            if (deletado == 1 && gerenteCtrl.cadastrarGerente(mat, nome, g.getSenha())) {
                 System.out.println("Gerente alterado com sucesso!");
-            }
-            else if(deletado == -1)
-            {
+            } else if (deletado == -1) {
                 System.out.println("Não é possível alterar o Gerente Padrão!");
-            }
-            else {
+            } else {
                 System.out.println("Não foi possível alterar esse Gerente!");
             }
         }
@@ -593,10 +581,10 @@ public class View extends ViewTools{
     public void cadastrarCliente() {
         System.out.println("Digite o CPF do Cliente a ser cadastrado:");
         String cpf = lerCpfValido();
-        if (ctr.buscarCliente(cpf) == null) {
+        if (clienteCtrl.buscarCliente(cpf) == null) {
             System.out.println("Digite o nome do Cliente a ser cadastrado:");
             String nome = ler.nextLine();
-            if (ctr.cadastrarCliente(cpf, nome,0.0f)) {
+            if (clienteCtrl.cadastrarCliente(cpf, nome, 0.0f)) {
                 System.out.println("Cliente cadastrado com sucesso!");
             } else {
                 System.out.println("Não foi possível cadastrar esse Cliente!");
@@ -609,7 +597,7 @@ public class View extends ViewTools{
     public void deletarCliente() {
         System.out.println("Digite o CPF do Cliente cujo cadastro será deletado:");
         String cpf = lerCpfValido();
-        if (ctr.deletarCliente(cpf)) {
+        if (clienteCtrl.deletarCliente(cpf)) {
             System.out.println("Cadastro de Cliente deletado com sucesso!");
         } else {
             System.out.println("Não foi possível deletar o cadastro desse Cliente,\n"
@@ -621,7 +609,7 @@ public class View extends ViewTools{
         System.out.println("Digite o cpf do Cliente a ser alterado:");
         String cpf = lerCpfValido();
         Cliente c;
-        if ((c = ctr.buscarCliente(cpf)) == null) {
+        if ((c = clienteCtrl.buscarCliente(cpf)) == null) {
             System.out.println("Cliente não encontrado!");
         } else {
             System.out.println("--------------");
@@ -629,7 +617,7 @@ public class View extends ViewTools{
             System.out.println("--------------");
             System.out.println("Digite o novo nome do Cliente:");
             String nome = ler.nextLine();
-            if (ctr.deletarCliente(cpf) && ctr.cadastrarCliente(cpf, nome,c.getComprasAcumuladas())) {
+            if (clienteCtrl.deletarCliente(cpf) && clienteCtrl.cadastrarCliente(cpf, nome, c.getComprasAcumuladas())) {
                 System.out.println("Cliente alterado com sucesso!");
             } else {
                 System.out.println("Não foi possível alterar esse Cliente!");
@@ -638,7 +626,7 @@ public class View extends ViewTools{
     }
 
     public void exibirTodosClientes() {
-        System.out.print(ctr.recuperarTodosClientesComoString());
+        System.out.print(clienteCtrl.recuperarTodosClientesComoString());
         System.out.println("----------------------");
     }
 
