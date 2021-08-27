@@ -58,9 +58,23 @@ public class ViewTools  {
                 num = Float.parseFloat(ler.nextLine());
                 flag = false;
             } catch (NumberFormatException e) {
-                System.out.println("Digite apenas um número que seja real (Ex.: 00.00):");
+                System.out.println("Digite apenas um número reais (Ex.: 00.00):");
             }
         }
+        return num;
+    }
+     public float lerFloatPositivo() {
+        float num;
+        boolean flag = true;
+        do {
+            num = lerFloat();
+            if (num <= 0.0) {
+                System.out.println("Digite um número real maior que 00.00:");
+
+            } else {
+                flag = false;
+            }
+        } while (flag);
         return num;
     }
 

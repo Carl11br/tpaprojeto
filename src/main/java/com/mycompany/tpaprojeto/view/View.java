@@ -164,7 +164,7 @@ public class View extends ViewTools{
             System.out.println("Não existe um produto cadastrado com esse código!");
         } else {
             System.out.println("Digite a quantidade de items ou o peso em quilo:");
-            float qtd = lerFloat();
+            float qtd = lerFloatPositivo();
             Item i = ctr.criarItem(p, qtd);
             if (i == null) {
                 System.out.println("A quantidade deve ser um número positivo!");
