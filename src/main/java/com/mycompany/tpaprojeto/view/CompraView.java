@@ -57,7 +57,6 @@ public class CompraView extends ViewTools {
                         this.aplicarDesconto(compra);
                         System.out.println("TOTAL: R$ " + compra.getTotalComoString());
                         flag = !this.concluirCompra(compra, cliente);
-                        flag = false;
                     }
 
                     break;
@@ -96,7 +95,7 @@ public class CompraView extends ViewTools {
 
   
     private boolean concluirCompra(Compra compra, Cliente cliente) {
-        System.out.println("Deseja mesmo concluir a compra?\n1-Sim\n2 ou outro nº-Não");
+        System.out.println("Deseja mesmo concluir a compra?\n1-Sim\n2-Não");
         int escolha = lerInt();
         if(escolha == 1)
         {

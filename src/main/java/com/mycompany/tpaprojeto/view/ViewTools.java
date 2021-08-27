@@ -7,6 +7,7 @@ import com.mycompany.tpaprojeto.controller.DescontoController;
 import com.mycompany.tpaprojeto.controller.GerenteController;
 import com.mycompany.tpaprojeto.controller.ItemController;
 import com.mycompany.tpaprojeto.controller.ProdutoController;
+import java.io.Console;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -30,6 +31,7 @@ public class ViewTools {
     protected static final GerenteView gerenteVw = new GerenteView();
     protected static Scanner ler = new Scanner(System.in);
     protected static int op = 0;
+    protected static Console console = System.console();
 
     public int lerInt() {
         int num = 0;
@@ -207,7 +209,9 @@ public class ViewTools {
     }
 
     public String lerSenha() {
-        return ler.nextLine().replaceAll("[\\n]", "");
+        if(console == null)
+            return ler.nextLine().replaceAll("[\\n]", "");
+        return new String(console.readPassword("OBS.: A senha digitada não aparecerá enquanto você digita.")).replaceAll("[\\n]", "");
     }
 
     public final static void clearConsole() {
