@@ -51,7 +51,10 @@ public class CompraController {
             compra.add_Item(i);
         else
         {
+            float addTotal = -itemBuscado.getSubtotal();
             itemBuscado.aumentarQuantidade(i.getQuantidade());
+            addTotal+=itemBuscado.getSubtotal();
+            compra.atualizarTotal(addTotal);
         }
     }
 

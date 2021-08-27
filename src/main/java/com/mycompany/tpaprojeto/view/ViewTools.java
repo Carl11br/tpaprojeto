@@ -56,7 +56,20 @@ public class ViewTools {
         } while (flag);
         return num;
     }
+    public int lerIntPositivoEZero() {
+        int num;
+        boolean flag = true;
+        do {
+            num = lerInt();
+            if (num < 0) {
+                System.out.println("Digite um número inteiro maior ou igual a 0:");
 
+            } else {
+                flag = false;
+            }
+        } while (flag);
+        return num;
+    }
     public int lerDesconto() {
         int desc;
         boolean flag = true;

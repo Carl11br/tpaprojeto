@@ -184,7 +184,7 @@ public class CompraView extends ViewTools {
         System.out.println("----------------------");
     }
     public Cliente associarCliente() {
-        System.out.println("Digite o cpf do cliente:");
+        System.out.println("Digite o CPF do cliente:");
         String cpf = lerCpfValido();
         String nome;
         Cliente c = clienteCtrl.buscarCliente(cpf);
@@ -203,8 +203,8 @@ public class CompraView extends ViewTools {
     }
 
     public Caixa associarCaixa() {
-        System.out.println("Digite a matrícula do caixa:");
-        int mat = lerIntPositivo();
+        System.out.println("Digite a matrícula do caixa ou 0 para voltar ao menu anterior:");
+        int mat = lerIntPositivoEZero();
         Caixa c = caixaCtrl.buscarCaixa(mat);
         if (c == null) {
             System.out.println("Não foi encontrado um(a) Caixa com essa matrícula!");

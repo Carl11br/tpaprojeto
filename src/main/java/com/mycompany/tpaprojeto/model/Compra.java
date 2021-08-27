@@ -42,7 +42,7 @@ public class Compra implements Serializable{
         return df.format(this.getTotal());
     }
 
-    private void atualizarTotal(float valor) {
+    public void atualizarTotal(float valor) {
         this.total += valor;
     }
 
