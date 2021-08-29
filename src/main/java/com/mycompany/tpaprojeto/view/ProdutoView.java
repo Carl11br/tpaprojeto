@@ -42,7 +42,7 @@ public class ProdutoView  extends ViewTools{
         int cod = lerIntPositivo();
         if (produtoCtrl.buscarProduto(cod) == null) {
             System.out.println("Digite o nome do produto a ser cadastrado:");
-            String nome = ler.nextLine();
+            String nome = lerString();
             System.out.println("Digite o preço do produto a ser cadastrado:");
             float preco = lerFloat();
             if (produtoCtrl.cadastrarProduto(cod, nome, preco)) {
@@ -66,7 +66,7 @@ public class ProdutoView  extends ViewTools{
             System.out.print(p);
             System.out.println("--------------");
             System.out.println("Digite o novo nome do produto:");
-            String nome = ler.nextLine();
+            String nome = lerString();
             System.out.println("Digite o novo preço do produto:");
             float preco = lerFloat();
 

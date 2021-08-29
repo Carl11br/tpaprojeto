@@ -15,7 +15,6 @@ public class CompraView extends ViewTools {
        
         
         public void menuCompra() {
-        clearConsole();
         op = 0;
         Caixa caixa = associarCaixa();
         if (caixa == null) {
@@ -202,7 +201,7 @@ public class CompraView extends ViewTools {
         Cliente c = clienteCtrl.buscarCliente(cpf);
         if (c == null) {
             System.out.println("Digite o nome do cliente:");
-            nome = ler.nextLine();
+            nome = lerString();
             if (clienteCtrl.cadastrarCliente(cpf, nome, 0.0f)) {
                 System.out.println("Cliente cadastrado com sucesso!");
             }

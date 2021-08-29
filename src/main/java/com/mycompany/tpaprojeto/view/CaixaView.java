@@ -44,7 +44,7 @@ public class CaixaView extends ViewTools {
         int mat = lerIntPositivo();
         if (caixaCtrl.buscarCaixa(mat) == null) {
             System.out.println("Digite o nome do Caixa a ser cadastrado:");
-            String nome = ler.nextLine();
+            String nome = lerString();
             if (caixaCtrl.cadastrarCaixa(mat, nome)) {
                 System.out.println("Caixa cadastrado com sucesso!");
             } else {
@@ -77,7 +77,7 @@ public class CaixaView extends ViewTools {
             System.out.print(c.toString());
             System.out.println("--------------");
             System.out.println("Digite o novo nome do Caixa:");
-            String nome = ler.nextLine();
+            String nome = lerString();
 
             if (caixaCtrl.alterarCaixa(mat, nome)) {
                 System.out.println("Caixa alterado com sucesso!");

@@ -10,6 +10,7 @@ import com.mycompany.tpaprojeto.controller.ProdutoController;
 import java.io.Console;
 import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,16 +30,23 @@ public class ViewTools {
     protected static final CompraView compraVw = new CompraView();
     protected static final DescontoView descontoVw = new DescontoView();
     protected static final GerenteView gerenteVw = new GerenteView();
-    protected static Scanner ler = new Scanner(System.in);
+    protected static final Scanner ler = new Scanner(System.in);
     protected static int op = 0;
     protected static Console console = System.console();
 
+    public String lerString()
+    {
+       if(console == null)
+           return ler.nextLine();
+       else
+           return console.readLine();
+    }
     public int lerInt() {
         int num = 0;
         boolean flag = true;
         while (flag) {
-            try {
-                num = Integer.parseInt(ler.nextLine());
+            try {      
+                num = Integer.parseInt(lerString());
                 flag = false;
             } catch (NumberFormatException e) {
                 System.out.println("Digite apenas um número que seja inteiro:");
@@ -97,7 +105,7 @@ public class ViewTools {
         boolean flag = true;
         while (flag) {
             try {
-                num = Float.parseFloat(ler.nextLine());
+                num = Float.parseFloat(lerString());
                 flag = false;
             } catch (NumberFormatException e) {
                 System.out.println("Digite apenas um número reais (Ex.: 00.00):");
@@ -125,7 +133,7 @@ public class ViewTools {
         String cpf = "";
         boolean flag = true;
         while (flag) {
-            cpf = ler.nextLine().replaceAll("\\D", "");
+            cpf = lerString().replaceAll("\\D", "");
             if (ValidaCpf(cpf)) {
                 flag = false;
             } else {
@@ -202,7 +210,7 @@ public class ViewTools {
 
     public void aperteEnterContinuar() {
         System.out.println("Aperte ENTER para continuar ...");
-        ler.nextLine();
+        lerString();
         clearConsole();
         
 
@@ -210,7 +218,7 @@ public class ViewTools {
 
     public String lerSenha() {
         if(console == null)
-            return ler.nextLine().replaceAll("[\\n]", "");
+            return lerString().replaceAll("[\\n]", "");
         return new String(console.readPassword("OBS.: A senha digitada não aparecerá enquanto você digita.")).replaceAll("[\\n]", "");
     }
 

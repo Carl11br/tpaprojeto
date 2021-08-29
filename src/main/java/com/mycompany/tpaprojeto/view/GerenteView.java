@@ -1,8 +1,9 @@
 package com.mycompany.tpaprojeto.view;
+
 import com.mycompany.tpaprojeto.model.Gerente;
 
-
 public class GerenteView extends ViewTools {
+
     public void menuGerente() {
         boolean flag = true;
         while (flag) {
@@ -51,7 +52,7 @@ public class GerenteView extends ViewTools {
 
     public void menuCadastroGerente() {
         boolean flag = true;
-        
+
         System.out.println("------------------Menu Cadastro de Gerentes------------------");
         while (flag) {
             System.out.println("1-Cadastrar Gerente");
@@ -93,7 +94,7 @@ public class GerenteView extends ViewTools {
         int mat = lerIntPositivo();
         if (gerenteCtrl.buscarGerente(mat) == null) {
             System.out.println("Digite o nome do Gerente a ser cadastrado:");
-            String nome = ler.nextLine();
+            String nome = lerString();
             String senha = cadastrarSenha();
             if (gerenteCtrl.cadastrarGerente(mat, nome, senha)) {
                 System.out.println("Gerente cadastrado com sucesso!");
@@ -106,8 +107,13 @@ public class GerenteView extends ViewTools {
     }
 
     public void deletarGerente() {
-        System.out.println("Digite o matrícula do Gerente cujo cadastro será deletado:");
-        int mat = lerIntPositivo();
+        System.out.println("Digite o matrícula do Gerente cujo cadastro será deletado ou 0 para voltar:");
+        int mat = lerIntPositivoEZero();
+        if(mat == 0)
+        {
+            clearConsole();
+            return;
+        }
         int conseguiuDeletar = gerenteCtrl.deletarGerente(mat);
         switch (conseguiuDeletar) {
             case 1:
@@ -124,29 +130,55 @@ public class GerenteView extends ViewTools {
     }
 
     public void alterarGerente() {
-        System.out.println("Digite a matrícula do Gerente cujo cadastro será alterado:");
-        int mat = lerIntPositivo();
-        Gerente g;
-        if ((g = gerenteCtrl.buscarGerente(mat)) == null) {
+        System.out.println("Digite a matrícula do Gerente cujo cadastro será alterado ou 0 para voltar:");
+        int mat = lerIntPositivoEZero();
+         if(mat == 0)
+        {
+            clearConsole();
+            return;
+        }
+        Gerente g = gerenteCtrl.buscarGerente(mat);
+        if (g == null) {
             System.out.println("Gerente não encontrado!");
+        } else if (gerenteCtrl.verificarGerentePadrao(g)) {
+            System.out.println("Não é permitido alterar o Gerente Padrão!");
         } else {
             System.out.println("--------------");
             System.out.print(g.toString());
             System.out.println("--------------");
             System.out.println("Digite o novo nome do Gerente:");
-            String nome = ler.nextLine();
-            String nova_senha = cadastrarSenha();
-            int altera;
-            if (autenticarGerente()) {
-                if ((altera = gerenteCtrl.alterarGerente(mat, nome, nova_senha)) == 1) {
-                    System.out.println("Gerente alterado com sucesso!");
-                } else if (altera == -1) {
-                    System.out.println("Não é possível alterar o Gerente Padrão!");
-                } else {
-                    System.out.println("Não foi possível alterar esse Gerente!");
-                }
+            String nome = lerString();
+            System.out.println("Deseja alterar a senha desse gerente também? 1-Sim 2-Não");
+            int escolha = lerInt();
+            switch (escolha) {
+                case 1:
+                    if (autenticarGerenteAlteracao(g)) {
+                        String nova_senha = cadastrarSenhaAlteracao();
+                        if ((gerenteCtrl.alterarGerente(mat, nome, nova_senha)) == 1) {
+                            System.out.println("Gerente alterado com sucesso!");
+                        } else {
+                            System.out.println("Não foi possível alterar esse Gerente!");
+                        }
+                    } else {
+                        if ((gerenteCtrl.alterarGerente(mat, nome, g.getSenha())) == 1) {
+                            System.out.println("Somente a o nome foi alterado!");
+                        } else {
+                            System.out.println("Não foi possível alterar esse Gerente!");
+                        }
+
+                    }
+                    break;
+                default:
+                    if ((gerenteCtrl.alterarGerente(mat, nome, g.getSenha())) == 1) {
+                        System.out.println("Gerente alterado com sucesso!");
+                    } else {
+                        System.out.println("Não foi possível alterar esse Gerente!");
+                    }
+                    break;
             }
+
         }
+
     }
 
     public void exibirTodosGerentes() {
@@ -155,8 +187,13 @@ public class GerenteView extends ViewTools {
     }
 
     public boolean autenticarGerente() {
-        System.out.println("Gerente, digite sua matrícula:");
-        int mat = lerInt();
+        System.out.println("Gerente, digite sua matrícula ou 0 para voltar ao menu anterior:");
+        int mat = lerIntPositivoEZero();
+        if(mat==0)
+        {
+            clearConsole();
+            return false;
+        }
         String senha;
         System.out.println("Gerente, digite sua senha:");
         senha = lerSenha();
@@ -169,13 +206,39 @@ public class GerenteView extends ViewTools {
         return b;
     }
 
-    public String cadastrarSenha(){
+    public boolean autenticarGerenteAlteracao(Gerente g) {
+        String senha;
+        System.out.println("Digite a senha do gerente a ser alterado:");
+        senha = lerSenha();
+        boolean b = gerenteCtrl.autenticarGerente(g.getMatricula(), senha);
+        if (b == false) {
+            System.out.println("Senha errada!");
+        }
+
+        return b;
+    }
+
+    public String cadastrarSenha() {
         String senha1 = "senha1", senha2 = "senha2";
         while (!senha1.equals(senha2)) {
             System.out.println("Digite a senha a ser cadastrada:");
             senha1 = lerSenha();
             System.out.println("Digite novamente a senha ser cadastrada:");
-            senha2 = ler.nextLine().replaceAll("[\\n ]", "");
+            senha2 = lerSenha();
+            if (!senha1.equals(senha2)) {
+                System.out.println("As senhas digitadas não coencidem!");
+            }
+        }
+        return senha2;
+    }
+
+    public String cadastrarSenhaAlteracao() {
+        String senha1 = "senha1", senha2 = "senha2";
+        while (!senha1.equals(senha2)) {
+            System.out.println("Digite a nova senha:");
+            senha1 = lerSenha();
+            System.out.println("Digite novamente a nova senha:");
+            senha2 = lerSenha();
             if (!senha1.equals(senha2)) {
                 System.out.println("As senhas digitadas não coencidem!");
             }

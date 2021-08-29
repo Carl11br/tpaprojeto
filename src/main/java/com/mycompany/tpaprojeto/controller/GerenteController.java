@@ -39,10 +39,13 @@ public class GerenteController {
     public int deletarGerente(int mat) {
         return gerentePer.deletarGerenteDoArquivo(mat);
     }
-
+    public boolean verificarGerentePadrao(Gerente g)
+    {
+        return g == gerentePer.getGerentePadrao();
+    }
     public int alterarGerente(int mat, String nome, String nova_senha) {
-        Gerente g;
-        if((g = buscarGerente(mat)) != null) {
+        Gerente g = buscarGerente(mat);
+        if((g != null)) {
             g.setNome(nome);
             g.setSenha(nova_senha);
             return gerentePer.alterarGerenteNoArquivo(g);

@@ -11,11 +11,16 @@ import java.util.HashMap;
 
 public class GerentePersitence {
     private static HashMap<Integer, Gerente> gerentes;
-    private static  Gerente gerentePadrao = new Gerente(1,"Gerente Padrão","admin");
+    private static final Gerente gerentePadrao = new Gerente(1,"Gerente Padrão","admin");
+
+   
     public GerentePersitence() {
         if(this.lerGerentesDoArquivo() == false)
             this.gerentes = new HashMap<>();
             this.gerentes.put(gerentePadrao.getMatricula(), gerentePadrao);
+    }
+     public static Gerente getGerentePadrao() {
+        return gerentePadrao;
     }
     public boolean salvarGerentesNoArquivo() {
         try {
@@ -93,4 +98,5 @@ public class GerentePersitence {
         }
         return  0;
     }
+    
 }

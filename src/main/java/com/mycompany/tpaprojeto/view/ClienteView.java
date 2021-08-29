@@ -45,7 +45,7 @@ public class ClienteView  extends ViewTools{
         String cpf = lerCpfValido();
         if (clienteCtrl.buscarCliente(cpf) == null) {
             System.out.println("Digite o nome do Cliente a ser cadastrado:");
-            String nome = ler.nextLine();
+            String nome = lerString();
             if (clienteCtrl.cadastrarCliente(cpf, nome, 0.0f)) {
                 System.out.println("Cliente cadastrado com sucesso!");
             } else {
@@ -78,7 +78,7 @@ public class ClienteView  extends ViewTools{
             System.out.print(c);
             System.out.println("--------------");
             System.out.println("Digite o novo nome do Cliente:");
-            String nome = ler.nextLine();
+            String nome = lerString();
             if (clienteCtrl.alterarCliente(cpf, nome)) {
                 System.out.println("Cliente alterado com sucesso!");
             } else {

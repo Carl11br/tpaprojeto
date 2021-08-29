@@ -1,6 +1,9 @@
 package com.mycompany.tpaprojeto.view;
 
+import java.util.Locale;
+
 public class ViewPrincipal extends ViewTools {
+    
     public void menuPrincipal() {
         boolean encerrar = false;
         while (encerrar == false) {
